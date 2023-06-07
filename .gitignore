@@ -139,7 +139,7 @@ Desktop.ini
 *.egg
 *.egg-info
 # dist
-dist/
+dist
 eggs
 parts
 bin
