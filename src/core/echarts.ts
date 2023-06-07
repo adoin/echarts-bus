@@ -2685,7 +2685,7 @@ export function init(
         }
     }
 
-    const chart = new ECharts(dom, theme, opts);
+    const chart = new ECharts(dom, theme??window.__echarts_current_theme, opts);
     chart.id = 'ec_' + idBase++;
     instances[chart.id] = chart;
 
