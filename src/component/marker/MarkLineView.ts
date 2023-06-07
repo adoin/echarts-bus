@@ -128,7 +128,7 @@ const markLineTransform = function (
         }
         else {
             // Invalid data
-            if (__DEV__) {
+            if (window.__DEV__) {
                 logError('Invalid markLine data.');
             }
             itemArray = [];

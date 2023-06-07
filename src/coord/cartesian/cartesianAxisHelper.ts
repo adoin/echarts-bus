@@ -116,7 +116,7 @@ export function findAxisModels(seriesModel: SeriesModel): {
             axisType, SINGLE_REFERRING
         ).models[0] as CartesianAxisModel;
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (!axisModel) {
                 throw new Error(axisType + ' "' + zrUtil.retrieve3(
                     seriesModel.get(axisType + 'Index' as any),

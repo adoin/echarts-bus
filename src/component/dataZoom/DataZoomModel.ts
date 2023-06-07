@@ -466,7 +466,7 @@ class DataZoomModel<Opts extends DataZoomOption = DataZoomOption> extends Compon
      * @return If not found, return null/undefined.
      */
     getAxisModel(axisDim: DataZoomAxisDimension, axisIndex: number): AxisBaseModel {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(axisDim && axisIndex != null);
         }
         const axisInfo = this._targetAxisInfoMap.get(axisDim);
@@ -568,7 +568,7 @@ class DataZoomModel<Opts extends DataZoomOption = DataZoomOption> extends Compon
     }
 
     getOrient(): LayoutOrient {
-        if (__DEV__) {
+        if (window.__DEV__) {
             // Should not be called before initialized.
             assert(this._orient);
         }

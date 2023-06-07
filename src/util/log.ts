@@ -53,14 +53,14 @@ export function error(str: string, onlyOnce?: boolean) {
 }
 
 export function deprecateLog(str: string) {
-    if (__DEV__) {
+    if (window.__DEV__) {
         // Not display duplicate message.
         outputLog('warn', 'DEPRECATED: ' + str, true);
     }
 }
 
 export function deprecateReplaceLog(oldOpt: string, newOpt: string, scope?: string) {
-    if (__DEV__) {
+    if (window.__DEV__) {
         deprecateLog((scope ? `[${scope}]` : '') + `${oldOpt} is deprecated, use ${newOpt} instead.`);
     }
 }
@@ -77,7 +77,7 @@ export function deprecateReplaceLog(oldOpt: string, newOpt: string, scope?: stri
 export function makePrintable(...hintInfo: unknown[]): string {
     let msg = '';
 
-    if (__DEV__) {
+    if (window.__DEV__) {
         // Fuzzy stringify for print.
         // This code only exist in dev environment.
         const makePrintableStringIfPossible = (val: unknown): string => {

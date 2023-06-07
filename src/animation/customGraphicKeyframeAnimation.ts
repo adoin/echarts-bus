@@ -104,7 +104,7 @@ export function applyKeyframeAnimation<T extends Record<string, any>>(
             const animators = el.animators;
             const kfValues = targetPropName ? kf[targetPropName] : kf;
 
-            if (__DEV__) {
+            if (window.__DEV__) {
                 if (kf.percent >= 1) {
                     endFrameIsSet = true;
                 }
@@ -148,7 +148,7 @@ export function applyKeyframeAnimation<T extends Record<string, any>>(
             return;
         }
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (!endFrameIsSet) {
                 warn('End frame with percent: 1 is missing in the keyframeAnimation.', true);
             }

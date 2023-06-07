@@ -107,7 +107,7 @@ function labelLayout(data: SeriesData) {
             let x2;
             let y2;
             const labelLineLen = labelLineModel.get('length');
-            if (__DEV__) {
+            if (window.__DEV__) {
                 if (orient === 'vertical' && ['top', 'bottom'].indexOf(labelPosition as string) > -1) {
                     labelPosition = 'left';
                     console.warn('Position error: Funnel chart on vertical orient dose not support top and bottom.');

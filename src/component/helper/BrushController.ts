@@ -258,7 +258,7 @@ class BrushController extends Eventful<{
     constructor(zr: ZRenderType) {
         super();
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(zr);
         }
 
@@ -277,7 +277,7 @@ class BrushController extends Eventful<{
      * If set to `false`, select disabled.
      */
     enableBrush(brushOption: Partial<BrushCoverCreatorConfig> | false): BrushController {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(this._mounted);
         }
 
@@ -345,7 +345,7 @@ class BrushController extends Eventful<{
     }): BrushController {
         opt = opt || {};
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             this._mounted = true; // should be at first.
         }
 
@@ -376,7 +376,7 @@ class BrushController extends Eventful<{
      *        If coverConfigList is null/undefined, all covers removed.
      */
     updateCovers(coverConfigList: BrushCoverConfig[]) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(this._mounted);
         }
 
@@ -433,7 +433,7 @@ class BrushController extends Eventful<{
     }
 
     unmount() {
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (!this._mounted) {
                 return;
             }
@@ -445,7 +445,7 @@ class BrushController extends Eventful<{
         clearCovers(this);
         this._zr.remove(this.group);
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             this._mounted = false; // should be at last.
         }
 
@@ -928,7 +928,7 @@ function updateCoverByMouse(
 
 function determineBrushType(brushType: BrushTypeUncertain, panel: BrushPanelConfig): BrushType {
     if (brushType === 'auto') {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(
                 panel && panel.defaultBrushType,
                 'MUST have defaultBrushType when brushType is "atuo"'

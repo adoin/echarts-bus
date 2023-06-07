@@ -249,7 +249,7 @@ function convertToEC4RichItem(out: Dictionary<unknown>, richItem: TextStyleProps
 }
 
 export function warnDeprecated(deprecated: string, insteadApproach: string): void {
-    if (__DEV__) {
+    if (window.__DEV__) {
         const key = deprecated + '^_^' + insteadApproach;
         if (!deprecatedLogs[key]) {
             console.warn(`[ECharts] DEPRECATED: "${deprecated}" has been deprecated. ${insteadApproach}`);

@@ -325,20 +325,20 @@ const tmpDuringScope = {} as {
 const transitionDuringAPI: TransitionDuringAPI = {
     // Usually other props do not need to be changed in animation during.
     setTransform(key: TransformProp, val: unknown) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(hasOwn(TRANSFORM_PROPS_MAP, key), 'Only ' + transformPropNamesStr + ' available in `setTransform`.');
         }
         tmpDuringScope.el[key] = val as number;
         return this;
     },
     getTransform(key: TransformProp): number {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(hasOwn(TRANSFORM_PROPS_MAP, key), 'Only ' + transformPropNamesStr + ' available in `getTransform`.');
         }
         return tmpDuringScope.el[key];
     },
     setShape(key: any, val: unknown) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assertNotReserved(key);
         }
         const el = tmpDuringScope.el as Path;
@@ -348,7 +348,7 @@ const transitionDuringAPI: TransitionDuringAPI = {
         return this;
     },
     getShape(key: any): any {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assertNotReserved(key);
         }
         const shape = (tmpDuringScope.el as Path).shape;
@@ -357,13 +357,13 @@ const transitionDuringAPI: TransitionDuringAPI = {
         }
     },
     setStyle(key: any, val: unknown) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assertNotReserved(key);
         }
         const el = tmpDuringScope.el as Displayable;
         const style = el.style;
         if (style) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 if (eqNaN(val)) {
                     warn('style.' + key + ' must not be assigned with NaN.');
                 }
@@ -374,7 +374,7 @@ const transitionDuringAPI: TransitionDuringAPI = {
         return this;
     },
     getStyle(key: any): any {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assertNotReserved(key);
         }
         const style = (tmpDuringScope.el as Displayable).style;
@@ -383,7 +383,7 @@ const transitionDuringAPI: TransitionDuringAPI = {
         }
     },
     setExtra(key: any, val: unknown) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assertNotReserved(key);
         }
         const extra = (tmpDuringScope.el as LooseElementProps).extra
@@ -392,7 +392,7 @@ const transitionDuringAPI: TransitionDuringAPI = {
         return this;
     },
     getExtra(key: string): unknown {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assertNotReserved(key);
         }
         const extra = (tmpDuringScope.el as LooseElementProps).extra;
@@ -403,7 +403,7 @@ const transitionDuringAPI: TransitionDuringAPI = {
 };
 
 function assertNotReserved(key: string) {
-    if (__DEV__) {
+    if (window.__DEV__) {
         if (key === 'transition' || key === 'enterFrom' || key === 'leaveTo') {
             throw new Error('key must not be "' + key + '"');
         }
@@ -532,7 +532,7 @@ function prepareTransformTransitionFrom(
             continue;
         }
         const elVal = (el as any)[key];
-        if (__DEV__) {
+        if (window.__DEV__) {
             checkTransformPropRefer(key, 'el.transition');
         }
         // Do not clone, animator will perform that clone.
@@ -622,7 +622,7 @@ function isNonStyleTransitionEnabled(optVal: unknown, elVal: unknown): boolean {
 }
 
 let checkTransformPropRefer: (key: string, usedIn: string) => void;
-if (__DEV__) {
+if (window.__DEV__) {
     checkTransformPropRefer = function (key: string, usedIn: string): void {
         if (!hasOwn(TRANSFORM_PROPS_MAP, key)) {
             warn('Prop `' + key + '` is not a permitted in `' + usedIn + '`. '

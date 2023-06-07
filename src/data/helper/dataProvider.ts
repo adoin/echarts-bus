@@ -115,7 +115,7 @@ export class DefaultDataProvider implements DataProvider {
 
         // Typed array. TODO IE10+?
         if (source.sourceFormat === SOURCE_FORMAT_TYPED_ARRAY) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 if (dimSize == null) {
                     throw new Error('Typed array data must specify dimension size');
                 }
@@ -155,7 +155,7 @@ export class DefaultDataProvider implements DataProvider {
             const dimsDef = source.dimensionsDefine;
 
             const methods = providerMethods[getMethodMapKey(sourceFormat, seriesLayoutBy)];
-            if (__DEV__) {
+            if (window.__DEV__) {
                 assert(methods, 'Invalide sourceFormat: ' + sourceFormat);
             }
 
@@ -258,7 +258,7 @@ export class DefaultDataProvider implements DataProvider {
                 persistent: false,
                 pure: true,
                 appendData: function (this: DefaultDataProvider, newData: ArrayLike<number>): void {
-                    if (__DEV__) {
+                    if (window.__DEV__) {
                         assert(
                             isTypedArray(newData),
                             'Added data must be TypedArray if data in initialization is TypedArray'
@@ -328,7 +328,7 @@ const rawSourceItemGetterMap: Dictionary<RawSourceItemGetter> = {
         const item = out || [];
         for (let i = 0; i < dimsDef.length; i++) {
             const dimName = dimsDef[i].name;
-            if (__DEV__) {
+            if (window.__DEV__) {
                 if (dimName == null) {
                     throw new Error();
                 }
@@ -345,7 +345,7 @@ export function getRawSourceItemGetter(
     sourceFormat: SourceFormat, seriesLayoutBy: SeriesLayoutBy
 ): RawSourceItemGetter {
     const method = rawSourceItemGetterMap[getMethodMapKey(sourceFormat, seriesLayoutBy)];
-    if (__DEV__) {
+    if (window.__DEV__) {
         assert(method, 'Do not support get item on "' + sourceFormat + '", "' + seriesLayoutBy + '".');
     }
     return method;
@@ -383,7 +383,7 @@ const rawSourceDataCounterMap: Dictionary<RawSourceDataCounter> = {
         rawData, startIndex, dimsDef
     ) {
         const dimName = dimsDef[0].name;
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (dimName == null) {
                 throw new Error();
             }
@@ -398,7 +398,7 @@ export function getRawSourceDataCounter(
     sourceFormat: SourceFormat, seriesLayoutBy: SeriesLayoutBy
 ): RawSourceDataCounter {
     const method = rawSourceDataCounterMap[getMethodMapKey(sourceFormat, seriesLayoutBy)];
-    if (__DEV__) {
+    if (window.__DEV__) {
         assert(method, 'Do not support count on "' + sourceFormat + '", "' + seriesLayoutBy + '".');
     }
     return method;
@@ -445,7 +445,7 @@ const rawSourceValueGetterMap: Partial<Record<SourceFormat, RawSourceValueGetter
 
 export function getRawSourceValueGetter(sourceFormat: SourceFormat): RawSourceValueGetter {
     const method = rawSourceValueGetterMap[sourceFormat];
-    if (__DEV__) {
+    if (window.__DEV__) {
         assert(method, 'Do not support get value on "' + sourceFormat + '".');
     }
     return method;

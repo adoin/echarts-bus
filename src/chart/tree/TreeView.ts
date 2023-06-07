@@ -579,7 +579,7 @@ function drawEdge(
             }
         }
         else {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 throw new Error('The polyline edgeShape can only be used in orthogonal layout');
             }
         }

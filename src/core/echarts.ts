@@ -412,7 +412,7 @@ class ECharts extends Eventful<ECEventDefinition> {
         let defaultRenderer = 'canvas';
         let defaultCoarsePointer: 'auto' | boolean = 'auto';
         let defaultUseDirtyRect = false;
-        if (__DEV__) {
+        if (window.__DEV__) {
             const root = (
                 /* eslint-disable-next-line */
                 env.hasGlobalWindow ? window : global
@@ -607,7 +607,7 @@ class ECharts extends Eventful<ECEventDefinition> {
     setOption<Opt extends ECBasicOption>(option: Opt, notMerge?: boolean | SetOptionOpts, lazyUpdate?: boolean): void {
         this._backupArguments = [option, notMerge, lazyUpdate]
         if (this[IN_MAIN_PROCESS_KEY]) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 error('`setOption` should not be called during main process.');
             }
             return;
@@ -721,7 +721,7 @@ class ECharts extends Eventful<ECEventDefinition> {
      * @deprecated Use renderToCanvas instead.
      */
     getRenderedCanvas(opts?: any): HTMLCanvasElement {
-        if (__DEV__) {
+        if (window.__DEV__) {
             deprecateReplaceLog('getRenderedCanvas', 'renderToCanvas');
         }
         return this.renderToCanvas(opts);
@@ -733,7 +733,7 @@ class ECharts extends Eventful<ECEventDefinition> {
     }): HTMLCanvasElement {
         opts = opts || {};
         const painter = this._zr.painter;
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (painter.type !== 'canvas') {
                 throw new Error('renderToCanvas can only be used in the canvas renderer.');
             }
@@ -749,7 +749,7 @@ class ECharts extends Eventful<ECEventDefinition> {
     }): string {
         opts = opts || {};
         const painter = this._zr.painter;
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (painter.type !== 'svg') {
                 throw new Error('renderToSVGString can only be used in the svg renderer.');
             }
@@ -981,7 +981,7 @@ class ECharts extends Eventful<ECEventDefinition> {
                         result = result || view.containPoint(value, model as SeriesModel);
                     }
                     else {
-                        if (__DEV__) {
+                        if (window.__DEV__) {
                             warn(key + ': ' + (view
                                 ? 'The found component do not support containPoint.'
                                 : 'No view mapping to the found component.'
@@ -990,7 +990,7 @@ class ECharts extends Eventful<ECEventDefinition> {
                     }
                 }
                 else {
-                    if (__DEV__) {
+                    if (window.__DEV__) {
                         warn(key + ': containPoint is not supported');
                     }
                 }
@@ -1024,7 +1024,7 @@ class ECharts extends Eventful<ECEventDefinition> {
 
         const seriesModel = parsedFinder.seriesModel;
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (!seriesModel) {
                 warn('There is no specified series model');
             }
@@ -1116,7 +1116,7 @@ class ECharts extends Eventful<ECEventDefinition> {
                         model.mainType === 'series' ? '_chartsMap' : '_componentsMap'
                     ][model.__viewId];
 
-                    if (__DEV__) {
+                    if (window.__DEV__) {
                         // `event.componentType` and `event[componentTpype + 'Index']` must not
                         // be missed, otherwise there is no way to distinguish source component.
                         // See `dataFormat.getDataParams`.
@@ -1229,7 +1229,7 @@ class ECharts extends Eventful<ECEventDefinition> {
      */
     resize(opts?: ResizeOpts): void {
         if (this[IN_MAIN_PROCESS_KEY]) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 error('`resize` should not be called during main process.');
             }
             return;
@@ -1311,7 +1311,7 @@ class ECharts extends Eventful<ECEventDefinition> {
 
         this.hideLoading();
         if (!loadingEffects[name]) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 warn('Loading effects ' + name + ' not exists.');
             }
             return;
@@ -1424,7 +1424,7 @@ class ECharts extends Eventful<ECEventDefinition> {
         const ecModel = this.getModel();
         const seriesModel = ecModel.getSeriesByIndex(seriesIndex) as SeriesModel;
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(params.data && seriesModel);
         }
 
@@ -1507,7 +1507,7 @@ class ECharts extends Eventful<ECEventDefinition> {
                             (ChartView as ChartViewConstructor).getClass(classType.sub)
                         );
 
-                    if (__DEV__) {
+                    if (window.__DEV__) {
                         assert(Clazz, classType.sub + ' does not exist.');
                     }
 
@@ -1870,7 +1870,7 @@ class ECharts extends Eventful<ECEventDefinition> {
                 }
             }
 
-            if (__DEV__) {
+            if (window.__DEV__) {
                 warn(
                     'No coordinate system that supports ' + methodName + ' found by the given finder.'
                 );
@@ -2601,7 +2601,7 @@ const MOUSE_EVENT_NAMES: ZRElementEventName[] = [
 ];
 
 function disposedWarning(id: string): void {
-    if (__DEV__) {
+    if (window.__DEV__) {
         warn('Instance ' + id + ' has been disposed');
     }
 }
@@ -2655,7 +2655,7 @@ export function init(
 
     const isClient = !(opts && opts.ssr);
     if (isClient) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (!dom) {
                 throw new Error('Initialize failed: invalid dom.');
             }
@@ -2663,13 +2663,13 @@ export function init(
 
         const existInstance = getInstanceByDom(dom);
         if (existInstance) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 warn('There is a chart instance already initialized on the dom.');
             }
             return existInstance;
         }
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (isDom(dom)
                 && dom.nodeName.toUpperCase() !== 'CANVAS'
                 && (
@@ -2933,7 +2933,7 @@ function normalizeRegister(
         priority = defaultPriority;
     }
 
-    if (__DEV__) {
+    if (window.__DEV__) {
         if (isNaN(priority) || priority == null) {
             throw new Error('Illegal priority');
         }
@@ -2980,7 +2980,7 @@ export function registerLoading(
  *     });
  */
 export function setCanvasCreator(creator: () => HTMLCanvasElement): void {
-    if (__DEV__) {
+    if (window.__DEV__) {
         deprecateLog('setCanvasCreator is deprecated. Use setPlatformAPI({ createCanvas }) instead.');
     }
     setPlatformAPI({

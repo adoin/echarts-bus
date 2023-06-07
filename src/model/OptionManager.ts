@@ -336,7 +336,7 @@ function parseRawOption(
     if (hasMedia) {
         if (isArray(mediaOnRoot)) {
             each(mediaOnRoot, function (singleMedia) {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     // Real case of wrong config.
                     if (singleMedia
                         && !singleMedia.option
@@ -358,7 +358,7 @@ function parseRawOption(
             });
         }
         else {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 // Real case of wrong config.
                 error('Illegal media option. Must be an array. Like { media: [ {...}, {...} ] }');
             }

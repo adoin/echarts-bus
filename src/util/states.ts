@@ -577,7 +577,7 @@ export function blurSeriesFromHighlightPayload(
     const seriesIndex = seriesModel.seriesIndex;
     const data = seriesModel.getData(payload.dataType);
     if (!data) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             error(`Unknown dataType ${payload.dataType}`);
         }
         return;
@@ -650,7 +650,7 @@ export function findComponentHighDownDispatchers(
     // So we do not use `blurScope` in component.
     let focusSelf: boolean;
     for (let i = 0; i < dispatchers.length; i++) {
-        if (__DEV__ && !isHighDownDispatcher(dispatchers[i])) {
+        if (window.__DEV__ && !isHighDownDispatcher(dispatchers[i])) {
             error('param should be highDownDispatcher');
         }
         if (getECData(dispatchers[i]).focus === 'self') {
@@ -667,7 +667,7 @@ export function handleGlobalMouseOverForHighDown(
     e: ElementEvent,
     api: ExtensionAPI
 ): void {
-    if (__DEV__ && !isHighDownDispatcher(dispatcher)) {
+    if (window.__DEV__ && !isHighDownDispatcher(dispatcher)) {
         error('param should be highDownDispatcher');
     }
 
@@ -703,7 +703,7 @@ export function handleGlobalMouseOutForHighDown(
     e: ElementEvent,
     api: ExtensionAPI
 ): void {
-    if (__DEV__ && !isHighDownDispatcher(dispatcher)) {
+    if (window.__DEV__ && !isHighDownDispatcher(dispatcher)) {
         error('param should be highDownDispatcher');
     }
 
@@ -807,7 +807,7 @@ export function enableHoverFocus(el: Element, focus: InnerFocus, blurScope: Blur
     if (focus != null) {
         // TODO dataIndex may be set after this function. This check is not useful.
         // if (ecData.dataIndex == null) {
-        //     if (__DEV__) {
+        //     if (window.__DEV__) {
         //         console.warn('focus can only been set on element with dataIndex');
         //     }
         // }

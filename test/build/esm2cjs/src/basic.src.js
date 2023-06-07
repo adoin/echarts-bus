@@ -58,7 +58,7 @@ var b = util.b;
 var c = Some;
 c(b);
 
-if (__DEV__) {
+if (window.__DEV__) {
     console.log('asdfasdf', Some);
     assert(b, 'asdfasd');
 }
@@ -75,7 +75,7 @@ function b() {
 
     innerSingleVarRenamed = innerSingleVar;
 
-    if (__DEV__ ) {
+    if (window.__DEV__ ) {
         console.log('zvcx');
         alert('v44');
     }

@@ -41,7 +41,7 @@ function compatEC2ItemStyle(opt: Dictionary<any>) {
         const normalItemStyleOpt = itemStyleOpt.normal;
         const emphasisItemStyleOpt = itemStyleOpt.emphasis;
         if (normalItemStyleOpt && normalItemStyleOpt[styleName]) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 deprecateReplaceLog(`itemStyle.normal.${styleName}`, styleName);
             }
             opt[styleName] = opt[styleName] || {};
@@ -54,7 +54,7 @@ function compatEC2ItemStyle(opt: Dictionary<any>) {
             normalItemStyleOpt[styleName] = null;
         }
         if (emphasisItemStyleOpt && emphasisItemStyleOpt[styleName]) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 deprecateReplaceLog(`itemStyle.emphasis.${styleName}`, `emphasis.${styleName}`);
             }
             opt[styleName] = opt[styleName] || {};
@@ -75,7 +75,7 @@ function convertNormalEmphasis(opt: Dictionary<any>, optType: string, useExtend?
         const emphasisOpt = opt[optType].emphasis;
 
         if (normalOpt) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 // eslint-disable-next-line max-len
                 deprecateLog(`'normal' hierarchy in ${optType} has been removed since 4.0. All style properties are configured in ${optType} directly now.`);
             }
@@ -89,7 +89,7 @@ function convertNormalEmphasis(opt: Dictionary<any>, optType: string, useExtend?
             }
         }
         if (emphasisOpt) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 deprecateLog(`${optType}.emphasis has been changed to emphasis.${optType} since 4.0`);
             }
             opt.emphasis = opt.emphasis || {};
@@ -124,7 +124,7 @@ function compatTextStyle(opt: any, propName: string) {
     const labelOptSingle = isObject(opt) && opt[propName];
     const textStyle = isObject(labelOptSingle) && labelOptSingle.textStyle;
     if (textStyle) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             // eslint-disable-next-line max-len
             deprecateLog(`textStyle hierarchy in ${propName} has been removed since 4.0. All textStyle properties are configured in ${propName} directly now.`);
         }
@@ -296,18 +296,18 @@ export default function globalCompatStyle(option: any, isTheme?: boolean) {
         if (radarOpt.name && radarOpt.axisName == null) {
             radarOpt.axisName = radarOpt.name;
             delete radarOpt.name;
-            if (__DEV__) {
+            if (window.__DEV__) {
                 deprecateLog('name property in radar component has been changed to axisName');
             }
         }
         if (radarOpt.nameGap != null && radarOpt.axisNameGap == null) {
             radarOpt.axisNameGap = radarOpt.nameGap;
             delete radarOpt.nameGap;
-            if (__DEV__) {
+            if (window.__DEV__) {
                 deprecateLog('nameGap property in radar component has been changed to axisNameGap');
             }
         }
-        if (__DEV__) {
+        if (window.__DEV__) {
             each(radarOpt.indicator, function (indicatorOpt: any) {
                 if (indicatorOpt.text) {
                     deprecateReplaceLog('text', 'name', 'radar.indicator');

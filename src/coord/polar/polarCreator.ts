@@ -170,7 +170,7 @@ const polarCreator = {
                     'polar', SINGLE_REFERRING
                 ).models[0] as PolarModel;
 
-                if (__DEV__) {
+                if (window.__DEV__) {
                     if (!polarModel) {
                         throw new Error(
                             'Polar "' + zrUtil.retrieve<number | string>(

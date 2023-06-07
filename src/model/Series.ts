@@ -218,7 +218,7 @@ class SeriesModel<Opt extends SeriesOption = SeriesOption> extends ComponentMode
         wrapData(data, this);
         this.dataTask.context.data = data;
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             zrUtil.assert(data, 'getInitialData returned invalid data.');
         }
 

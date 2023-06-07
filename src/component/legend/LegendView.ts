@@ -275,7 +275,7 @@ class LegendView extends ComponentView {
                 }, this);
             }
 
-            if (__DEV__) {
+            if (window.__DEV__) {
                 if (!legendDrawnMap.get(name)) {
                     console.warn(
                         name + ' series not exists. Legend data should be same with series name or data name.'

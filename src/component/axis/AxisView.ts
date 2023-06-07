@@ -110,7 +110,7 @@ class AxisView extends ComponentView {
     }
 
     static registerAxisPointerClass(type: string, clazz: AxisPointerConstructor) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (axisPointerClazz[type]) {
                 throw new Error('axisPointer ' + type + ' exists');
             }

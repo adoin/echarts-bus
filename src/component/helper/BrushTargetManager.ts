@@ -178,7 +178,7 @@ class BrushTargetManager {
         each(areas, function (area) {
             const targetInfo = this.findTargetInfo(area, ecModel);
 
-            if (__DEV__) {
+            if (window.__DEV__) {
                 assert(
                     !targetInfo || targetInfo === true || area.coordRange,
                     'coordRange must be specified when coord index specified.'
@@ -464,7 +464,7 @@ function axisConvert(
     values: BrushDimensionMinMax,
     xyMinMax: BrushDimensionMinMax[]
 } {
-    if (__DEV__) {
+    if (window.__DEV__) {
         assert(
             coordSys.type === 'cartesian2d',
             'lineX/lineY brush is available only in cartesian2d.'

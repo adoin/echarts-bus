@@ -167,7 +167,7 @@ class SankeySeriesModel extends SeriesModel<SankeySeriesOption> {
                 levelModels[levels[i].depth] = new Model(levels[i], this, ecModel);
             }
             else {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     throw new Error('levels[i].depth is mandatory and should be natural number');
                 }
             }

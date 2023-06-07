@@ -133,7 +133,7 @@ class LineSeriesModel extends SeriesModel<LineSeriesOption> {
     hasSymbolVisual = true;
 
     getInitialData(option: LineSeriesOption): SeriesData {
-        if (__DEV__) {
+        if (window.__DEV__) {
             const coordSys = option.coordinateSystem;
             if (coordSys !== 'polar' && coordSys !== 'cartesian2d') {
                 throw new Error('Line not support coordinateSystem besides cartesian and polar');

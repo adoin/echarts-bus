@@ -149,7 +149,7 @@ class ChartView {
     init(ecModel: GlobalModel, api: ExtensionAPI): void {}
 
     render(seriesModel: SeriesModel, ecModel: GlobalModel, api: ExtensionAPI, payload: Payload): void {
-        if (__DEV__) {
+        if (window.__DEV__) {
             throw new Error('render method must been implemented');
         }
     }
@@ -160,7 +160,7 @@ class ChartView {
     highlight(seriesModel: SeriesModel, ecModel: GlobalModel, api: ExtensionAPI, payload: Payload): void {
         const data = seriesModel.getData(payload && payload.dataType);
         if (!data) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 error(`Unknown dataType ${payload.dataType}`);
             }
             return;
@@ -174,7 +174,7 @@ class ChartView {
     downplay(seriesModel: SeriesModel, ecModel: GlobalModel, api: ExtensionAPI, payload: Payload): void {
         const data = seriesModel.getData(payload && payload.dataType);
         if (!data) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 error(`Unknown dataType ${payload.dataType}`);
             }
             return;

@@ -184,14 +184,14 @@ export class Task<Ctx extends TaskContext> {
         const step = performArgs && performArgs.step;
 
         if (upTask) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 assert(upTask._outputDueEnd != null);
             }
             this._dueEnd = upTask._outputDueEnd;
         }
         // DataTask or overallTask
         else {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 assert(!this._progress || this._count);
             }
             this._dueEnd = this._count ? this._count(this.context) : Infinity;
@@ -224,7 +224,7 @@ export class Task<Ctx extends TaskContext> {
             const outputDueEnd = this._settedOutputEnd != null
                 ? this._settedOutputEnd : end;
 
-            if (__DEV__) {
+            if (window.__DEV__) {
                 // ??? Can not rollback.
                 assert(outputDueEnd >= this._outputDueEnd);
             }
@@ -298,7 +298,7 @@ export class Task<Ctx extends TaskContext> {
      * @return The downstream task.
      */
     pipe(downTask: Task<Ctx>): void {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(downTask && !downTask._disposed && downTask !== this);
         }
 

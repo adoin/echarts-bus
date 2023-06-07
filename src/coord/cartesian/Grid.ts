@@ -545,7 +545,7 @@ class Grid implements CoordinateSystemMaster {
 
             const gridModel = xAxisModel.getCoordSysModel();
 
-            if (__DEV__) {
+            if (window.__DEV__) {
                 if (!gridModel) {
                     throw new Error(
                         'Grid "' + retrieve3(

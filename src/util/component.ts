@@ -151,7 +151,7 @@ export function enableTopologicalTravel<T>(
 
         zrUtil.each(targetNameSet, function () {
             let errMsg = '';
-            if (__DEV__) {
+            if (window.__DEV__) {
                 errMsg = makePrintable('Circular dependency may exists: ', targetNameSet, targetNameList, fullNameList);
             }
             throw new Error(errMsg);

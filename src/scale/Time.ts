@@ -621,7 +621,7 @@ function getIntervalTicks(
 
     }
 
-    if (__DEV__) {
+    if (window.__DEV__) {
         if (iter >= safeLimit) {
             warn('Exceed safe limit.');
         }

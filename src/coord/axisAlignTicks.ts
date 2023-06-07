@@ -129,7 +129,7 @@ export function alignScaleTicks(
         intervalScaleProto.setNiceExtent.call(scale, min + interval, max - interval);
     }
 
-    if (__DEV__) {
+    if (window.__DEV__) {
         const ticks = intervalScaleProto.getTicks.call(scale);
         if (ticks[1]
             && (!isValueNice(interval) || getPrecisionSafe(ticks[1].value) > getPrecisionSafe(interval))) {

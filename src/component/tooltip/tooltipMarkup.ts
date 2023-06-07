@@ -521,7 +521,7 @@ export class TooltipMarkupStyleCreator {
             return marker;
         }
         else {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 assert(markerId);
             }
             this.richTextStyles[markerId] = marker.style;

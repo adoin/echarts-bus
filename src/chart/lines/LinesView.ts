@@ -79,7 +79,7 @@ class LinesView extends ChartView {
                     lastFrameAlpha: Math.max(Math.min(trailLength / 10 + 0.9, 1), 0)
                 });
             }
-            else if (__DEV__) {
+            else if (window.__DEV__) {
                 console.warn('SVG render mode doesn\'t support lines with trail effect');
             }
         }
@@ -161,7 +161,7 @@ class LinesView extends ChartView {
         const pipelineContext = seriesModel.pipelineContext;
         const isLargeDraw = pipelineContext.large;
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (hasEffect && isLargeDraw) {
                 console.warn('Large lines not support effect');
             }

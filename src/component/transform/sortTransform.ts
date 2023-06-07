@@ -65,7 +65,7 @@ type OrderExpression = {
 
 
 let sampleLog = '';
-if (__DEV__) {
+if (window.__DEV__) {
     sampleLog = [
         'Valid config is like:',
         '{ dimension: "age", order: "asc" }',
@@ -90,7 +90,7 @@ export const sortTransform: ExternalDataTransform<SortTransformOption> = {
         const orderExprList: OrderExpression[] = normalizeToArray(config);
 
         if (!orderExprList.length) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 errMsg = 'Empty `config` in sort transform.';
             }
             throwError(errMsg);
@@ -108,14 +108,14 @@ export const sortTransform: ExternalDataTransform<SortTransformOption> = {
             const incomparable = orderExpr.incomparable;
 
             if (dimLoose == null) {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     errMsg = 'Sort transform config must has "dimension" specified.' + sampleLog;
                 }
                 throwError(errMsg);
             }
 
             if (order !== 'asc' && order !== 'desc') {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     errMsg = 'Sort transform config must has "order" specified.' + sampleLog;
                 }
                 throwError(errMsg);
@@ -123,14 +123,14 @@ export const sortTransform: ExternalDataTransform<SortTransformOption> = {
 
             if (incomparable && (incomparable !== 'min' && incomparable !== 'max')) {
                 let errMsg = '';
-                if (__DEV__) {
+                if (window.__DEV__) {
                     errMsg = 'incomparable must be "min" or "max" rather than "' + incomparable + '".';
                 }
                 throwError(errMsg);
             }
             if (order !== 'asc' && order !== 'desc') {
                 let errMsg = '';
-                if (__DEV__) {
+                if (window.__DEV__) {
                     errMsg = 'order must be "asc" or "desc" rather than "' + order + '".';
                 }
                 throwError(errMsg);
@@ -138,7 +138,7 @@ export const sortTransform: ExternalDataTransform<SortTransformOption> = {
 
             const dimInfo = upstream.getDimensionInfo(dimLoose);
             if (!dimInfo) {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     errMsg = makePrintable(
                         'Can not find dimension info via: ' + dimLoose + '.\n',
                         'Existing dimensions: ', upstream.cloneAllDimensionInfo(), '.\n',
@@ -150,7 +150,7 @@ export const sortTransform: ExternalDataTransform<SortTransformOption> = {
 
             const parser = parserName ? getRawValueParser(parserName) : null;
             if (parserName && !parser) {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     errMsg = makePrintable(
                         'Invalid parser name ' + parserName + '.\n',
                         'Illegal config:', orderExpr, '.\n'
@@ -171,7 +171,7 @@ export const sortTransform: ExternalDataTransform<SortTransformOption> = {
         if (sourceFormat !== SOURCE_FORMAT_ARRAY_ROWS
             && sourceFormat !== SOURCE_FORMAT_OBJECT_ROWS
         ) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 errMsg = 'sourceFormat "' + sourceFormat + '" is not supported yet';
             }
             throwError(errMsg);

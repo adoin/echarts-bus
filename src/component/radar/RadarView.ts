@@ -152,7 +152,7 @@ class RadarView extends ComponentView {
                     points.push(points[0].slice());
                 }
                 else {
-                    if (__DEV__) {
+                    if (window.__DEV__) {
                         console.error('Can\'t draw value axis ' + i);
                     }
                 }

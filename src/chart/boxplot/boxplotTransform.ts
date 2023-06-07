@@ -37,7 +37,7 @@ export const boxplotTransform: ExternalDataTransform<BoxplotTransformOption> = {
 
         if (upstream.sourceFormat !== SOURCE_FORMAT_ARRAY_ROWS) {
             let errMsg = '';
-            if (__DEV__) {
+            if (window.__DEV__) {
                 errMsg = makePrintable(
                     'source data is not applicable for this boxplot transform. Expect number[][].'
                 );

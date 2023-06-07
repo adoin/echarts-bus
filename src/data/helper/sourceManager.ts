@@ -267,7 +267,7 @@ export class SourceManager {
             }
         }
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(resultSourceList && upstreamSignList);
         }
 
@@ -284,14 +284,14 @@ export class SourceManager {
         const transformOption = datasetModel.get('transform', true);
         const fromTransformResult = datasetModel.get('fromTransformResult', true);
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(fromTransformResult != null || transformOption != null);
         }
 
         if (fromTransformResult != null) {
             let errMsg = '';
             if (upMgrList.length !== 1) {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     errMsg = 'When using `fromTransformResult`, there should be only one upstream dataset';
                 }
                 doThrow(errMsg);
@@ -306,7 +306,7 @@ export class SourceManager {
             const upSource = upMgr.getSource(fromTransformResult || 0);
             let errMsg = '';
             if (fromTransformResult != null && !upSource) {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     errMsg = 'Can not retrieve result by `fromTransformResult`: ' + fromTransformResult;
                 }
                 doThrow(errMsg);
@@ -374,7 +374,7 @@ export class SourceManager {
      *        Should have been sorted by `storeDimIndex` asc.
      */
     getSharedDataStore(seriesDimRequest: SeriesDataSchema): DataStore {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(isSeries(this._sourceHost), 'Can only call getDataStore on series source manager.');
         }
         const schema = seriesDimRequest.makeStoreSchema();

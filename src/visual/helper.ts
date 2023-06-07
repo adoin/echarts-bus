@@ -39,7 +39,7 @@ export function getItemVisualFromData(data: SeriesData, dataIndex: number, key: 
         case 'liftZ':
             return data.getItemVisual(dataIndex, key);
         default:
-            if (__DEV__) {
+            if (window.__DEV__) {
                 console.warn(`Unknown visual type ${key}`);
             }
     }
@@ -57,7 +57,7 @@ export function getVisualFromData(data: SeriesData, key: string) {
         case 'liftZ':
             return data.getVisual(key);
         default:
-            if (__DEV__) {
+            if (window.__DEV__) {
                 console.warn(`Unknown visual type ${key}`);
             }
     }
@@ -81,7 +81,7 @@ export function setItemVisualFromData(data: SeriesData, dataIndex: number, key: 
             data.setItemVisual(dataIndex, key, value);
             break;
         default:
-            if (__DEV__) {
+            if (window.__DEV__) {
                 console.warn(`Unknown visual type ${key}`);
             }
     }

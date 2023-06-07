@@ -187,7 +187,7 @@ export function createOrUpdatePatternFromDecal(
 
             const height = lineBlockLengthY * lineBlockLengthsX.length * symbolArray.length;
 
-            if (__DEV__) {
+            if (window.__DEV__) {
                 const warn = (attrName: string) => {
                     /* eslint-disable-next-line */
                     console.warn(`Calculated decal size is greater than ${attrName} due to decal option settings so ${attrName} is used for the decal size. Please consider changing the decal option to make a smaller decal or set ${attrName} to be larger to avoid incontinuity.`);

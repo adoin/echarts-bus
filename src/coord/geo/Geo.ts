@@ -100,16 +100,16 @@ class Geo extends View {
         this._regionsMap = source.regionsMap;
         this.regions = source.regions;
 
-        if (__DEV__ && projection) {
+        if (window.__DEV__ && projection) {
             // Do some check
             if (resourceType === 'geoSVG') {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     warn(`Map ${map} with SVG source can't use projection. Only GeoJSON source supports projection.`);
                 }
                 projection = null;
             }
             if (!(projection.project && projection.unproject)) {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     warn('project and unproject must be both provided in the projeciton.');
                 }
                 projection = null;

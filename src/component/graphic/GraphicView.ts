@@ -160,7 +160,7 @@ export class GraphicComponentView extends ComponentView {
 
 
             // For simple, do not support parent change, otherwise reorder is needed.
-            if (__DEV__) {
+            if (window.__DEV__) {
                 elExisting && zrUtil.assert(
                     targetElParent === elExisting.parent,
                     'Changing parent is not supported.'
@@ -381,7 +381,7 @@ export class GraphicComponentView extends ComponentView {
 }
 
 function newEl(graphicType: string) {
-    if (__DEV__) {
+    if (window.__DEV__) {
         zrUtil.assert(graphicType, 'graphic type MUST be set');
     }
 
@@ -393,7 +393,7 @@ function newEl(graphicType: string) {
             : graphicUtil.getShapeClass(graphicType)
     ) as { new(opt: GraphicComponentElementOption): Element; };
 
-    if (__DEV__) {
+    if (window.__DEV__) {
         zrUtil.assert(Clz, `graphic type ${graphicType} can not be found`);
     }
 

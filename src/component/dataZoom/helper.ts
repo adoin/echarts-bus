@@ -66,21 +66,21 @@ export function isCoordSupported(seriesModel: SeriesModel): boolean {
 }
 
 export function getAxisMainType(axisDim: DataZoomAxisDimension): DataZoomAxisMainType {
-    if (__DEV__) {
+    if (window.__DEV__) {
         assert(axisDim);
     }
     return axisDim + 'Axis' as DataZoomAxisMainType;
 }
 
 export function getAxisIndexPropName(axisDim: DataZoomAxisDimension): DataZoomAxisIndexPropName {
-    if (__DEV__) {
+    if (window.__DEV__) {
         assert(axisDim);
     }
     return axisDim + 'AxisIndex' as DataZoomAxisIndexPropName;
 }
 
 export function getAxisIdPropName(axisDim: DataZoomAxisDimension): DataZoomAxisIdPropName {
-    if (__DEV__) {
+    if (window.__DEV__) {
         assert(axisDim);
     }
     return axisDim + 'AxisId' as DataZoomAxisIdPropName;

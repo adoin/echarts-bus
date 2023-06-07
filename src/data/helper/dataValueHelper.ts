@@ -117,7 +117,7 @@ class FilterOrderComparator implements FilterComparator {
     constructor(op: OrderRelationOperator, rval: unknown) {
         if (!isNumber(rval)) {
             let errMsg = '';
-            if (__DEV__) {
+            if (window.__DEV__) {
                 errMsg = 'rvalue of "<", ">", "<=", ">=" can only be number in filter.';
             }
             throwError(errMsg);

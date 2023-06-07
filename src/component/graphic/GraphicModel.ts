@@ -238,7 +238,7 @@ function mergeNewElOptionToExist(
     const $action = newElOption.$action || 'merge';
     if ($action === 'merge') {
         if (existElOption) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 const newType = newElOption.type;
                 zrUtil.assert(
                     !newType || existElOption.type === newType,
@@ -374,7 +374,7 @@ export class GraphicComponentModel extends ComponentModel<GraphicComponentOption
         zrUtil.each(mappingResult, function (resultItem, index) {
             const newElOption = resultItem.newOption as GraphicComponentElementOption;
 
-            if (__DEV__) {
+            if (window.__DEV__) {
                 zrUtil.assert(
                     zrUtil.isObject(newElOption) || resultItem.existing,
                     'Empty graphic option definition'

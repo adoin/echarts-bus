@@ -53,7 +53,7 @@ export const filterTransform: ExternalDataTransform<FilterTransformOption> = {
                 let errMsg = '';
                 const dimLoose = exprOption.dimension;
                 if (!hasOwn(exprOption, 'dimension')) {
-                    if (__DEV__) {
+                    if (window.__DEV__) {
                         errMsg = makePrintable(
                             'Relation condition must has prop "dimension" specified.',
                             'Illegal condition:', exprOption
@@ -64,7 +64,7 @@ export const filterTransform: ExternalDataTransform<FilterTransformOption> = {
 
                 const dimInfo = upstream.getDimensionInfo(dimLoose);
                 if (!dimInfo) {
-                    if (__DEV__) {
+                    if (window.__DEV__) {
                         errMsg = makePrintable(
                             'Can not find dimension info via: ' + dimLoose + '.\n',
                             'Existing dimensions: ', upstream.cloneAllDimensionInfo(), '.\n',

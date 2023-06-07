@@ -117,7 +117,7 @@ class HeatmapView extends ChartView {
             });
         });
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (!visualMapOfThisSeries) {
                 throw new Error('Heatmap must use with visualMap');
             }
@@ -185,7 +185,7 @@ class HeatmapView extends ChartView {
             const xAxis = coordSys.getAxis('x');
             const yAxis = coordSys.getAxis('y');
 
-            if (__DEV__) {
+            if (window.__DEV__) {
                 if (!(xAxis.type === 'category' && yAxis.type === 'category')) {
                     throw new Error('Heatmap on cartesian must have two category axes');
                 }

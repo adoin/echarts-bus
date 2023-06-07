@@ -31,7 +31,7 @@ use([CanvasRenderer, DatasetComponent]);
 // import echarts from 'echarts/lib/echarts'
 export default {
     init() {
-        if (__DEV__) {
+        if (window.__DEV__) {
             /* eslint-disable-next-line */
             console.error(`"import echarts from 'echarts/lib/echarts'" is not supported anymore. Use "import * as echarts from 'echarts/lib/echarts'" instead;`);
         }

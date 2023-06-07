@@ -49,7 +49,7 @@ const Float64Arr = typeof Float64Array === 'undefined' ? Array : Float64Array;
 function compatEc2(seriesOpt: LinesSeriesOption) {
     const data = seriesOpt.data;
     if (data && data[0] && (data as LegacyDataItemOption[][])[0][0] && (data as LegacyDataItemOption[][])[0][0].coord) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             console.warn('Lines data configuration has been changed to'
                 + ' { coords:[[1,2],[2,3]] }');
         }
@@ -211,7 +211,7 @@ class LinesSeriesModel extends SeriesModel<LinesSeriesOption> {
         const coords = (itemModel.option instanceof Array)
             ? itemModel.option : itemModel.getShallow('coords');
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (!(coords instanceof Array && coords.length > 0 && coords[0] instanceof Array)) {
                 throw new Error(
                     'Invalid coords ' + JSON.stringify(coords) + '. Lines must have 2d coords array in data item.'
@@ -281,7 +281,7 @@ class LinesSeriesModel extends SeriesModel<LinesSeriesOption> {
                     coordsStorage[coordsCursor++] = y;
 
                     if (i > len) {
-                        if (__DEV__) {
+                        if (window.__DEV__) {
                             throw new Error('Invalid data format.');
                         }
                     }
@@ -303,7 +303,7 @@ class LinesSeriesModel extends SeriesModel<LinesSeriesOption> {
     }
 
     getInitialData(option: LinesSeriesOption, ecModel: GlobalModel) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             const CoordSys = CoordinateSystem.get(option.coordinateSystem);
             if (!CoordSys) {
                 throw new Error('Unknown coordinate system ' + option.coordinateSystem);

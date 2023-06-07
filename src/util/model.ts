@@ -238,7 +238,7 @@ export function mappingToExists<T extends MappingExistingItem>(
             return;
         }
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             // There is some legacy case that name is set as `false`.
             // But should work normally rather than throw error.
             if (cmptOption.id != null && !isValidIdOrName(cmptOption.id)) {
@@ -532,7 +532,7 @@ function keyExistAndEqual(
  * @return return null if not exist.
  */
 function makeComparableKey(val: unknown): string {
-    if (__DEV__) {
+    if (window.__DEV__) {
         if (val == null) {
             throw new Error();
         }
@@ -552,7 +552,7 @@ export function convertOptionIdName(idOrName: unknown, defaultValue: string): st
 }
 
 function warnInvalidateIdOrName(idOrName: unknown) {
-    if (__DEV__) {
+    if (window.__DEV__) {
         warn('`' + idOrName + '` is invalid id or name. Must be a string or number.');
     }
 }

@@ -65,7 +65,7 @@ export function concatInternalOptions(
     if (!internalOptions) {
         return newCmptOptionList;
     }
-    if (__DEV__) {
+    if (window.__DEV__) {
         for (let i = 0; i < internalOptions.length; i++) {
             assert(isComponentIdInternal(internalOptions[i]));
         }

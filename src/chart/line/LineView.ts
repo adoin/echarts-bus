@@ -268,7 +268,7 @@ function getVisualGradient(
     }
 
     if (coordSys.type !== 'cartesian2d') {
-        if (__DEV__) {
+        if (window.__DEV__) {
             console.warn('Visual map on line style is only supported on cartesian2d.');
         }
         return;
@@ -288,7 +288,7 @@ function getVisualGradient(
     }
 
     if (!visualMeta) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             console.warn('Visual map on line style only support x or y dimension.');
         }
         return;
@@ -563,7 +563,7 @@ function createLineClipPath(
         return clipPath;
     }
     else {
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (seriesModel.get(['endLabel', 'show'])) {
                 console.warn('endLabel is not supported for lines in polar systems.');
             }

@@ -217,7 +217,7 @@ class GlobalModel extends Model<ECUnitOption> {
         optionPreprocessorFuncs: OptionPreprocessor[]
     ): void {
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(option != null, 'option is null/undefined');
             assert(
                 option[OPTION_INNER_KEY] !== OPTION_INNER_VALUE,
@@ -255,7 +255,7 @@ class GlobalModel extends Model<ECUnitOption> {
 
         if (!type || type === 'recreate') {
             const baseOption = optionManager.mountOption(type === 'recreate');
-            if (__DEV__) {
+            if (window.__DEV__) {
                 checkMissingComponents(baseOption);
             }
 
@@ -416,7 +416,7 @@ class GlobalModel extends Model<ECUnitOption> {
                     );
 
                     if (!ComponentModelClass) {
-                        if (__DEV__) {
+                        if (window.__DEV__) {
                             const subType = resultItem.keyInfo.subType;
                             const seriesImportName = BUILTIN_CHARTS_MAP[subType as keyof typeof BUILTIN_CHARTS_MAP];
                             if (!componetsMissingLogPrinted[subType]) {
@@ -437,7 +437,7 @@ echarts.use([${seriesImportName}]);`);
                     // TODO Before multiple tooltips get supported, we do this check to avoid unexpected exception.
                     if (mainType === 'tooltip') {
                         if (tooltipExists) {
-                            if (__DEV__) {
+                            if (window.__DEV__) {
                                 if (!tooltipWarningLogged) {
                                     warn('Currently only one tooltip component is allowed.');
                                     tooltipWarningLogged = true;
@@ -913,7 +913,7 @@ echarts.use([${seriesImportName}]);`);
         assertSeriesInitialized = function (ecModel: GlobalModel): void {
             // Components that use _seriesIndices should depends on series component,
             // which make sure that their initialization is after series.
-            if (__DEV__) {
+            if (window.__DEV__) {
                 if (!ecModel._seriesIndices) {
                     throw new Error('Option should contains series.');
                 }
@@ -1067,7 +1067,7 @@ function filterBySubType(
 function normalizeSetOptionInput(opts: GlobalModelSetOptionOpts): InnerSetOptionOpts {
     const replaceMergeMainTypeMap = createHashMap<boolean, string>();
     opts && each(modelUtil.normalizeToArray(opts.replaceMerge), function (mainType) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(
                 ComponentModel.hasClass(mainType),
                 '"' + mainType + '" is not valid component main type in "replaceMerge"'

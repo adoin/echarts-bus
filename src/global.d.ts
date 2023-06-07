@@ -23,9 +23,9 @@ import { ThemeOption } from './util/types'
 type Events = {
   setTheme:string;
 }
-declare const __DEV__: boolean;
 declare global{
   interface Window {
-    __echarts_mitt_watcher:Emitter<Events>
+    __DEV__: boolean;
+    __echarts_mitt_watcher:Emitter<Events>;
   }
 }

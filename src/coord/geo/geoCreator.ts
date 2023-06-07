@@ -50,7 +50,7 @@ function resizeGeo(this: Geo, geoModel: ComponentModel<GeoOption | MapSeriesOpti
             isFinite(leftTop[0]) && isFinite(leftTop[1])
             && isFinite(rightBottom[0]) && isFinite(rightBottom[1])
         )) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 console.error('Invalid boundingCoords');
             }
         }
@@ -115,7 +115,7 @@ function resizeGeo(this: Geo, geoModel: ComponentModel<GeoOption | MapSeriesOpti
             useCenterAndSize = true;
         }
         else {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 console.warn('Given layoutCenter or layoutSize data are invalid. Use left/top/width/height instead.');
             }
         }

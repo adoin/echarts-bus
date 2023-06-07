@@ -100,7 +100,7 @@ const fetchers: Record<SupportedCoordSys, Fetcher> = {
         const xAxisModel = seriesModel.getReferringComponents('xAxis', SINGLE_REFERRING).models[0] as AxisBaseModel;
         const yAxisModel = seriesModel.getReferringComponents('yAxis', SINGLE_REFERRING).models[0] as AxisBaseModel;
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (!xAxisModel) {
                 throw new Error('xAxis "' + retrieve<number | string>(
                     seriesModel.get('xAxisIndex'),
@@ -136,7 +136,7 @@ const fetchers: Record<SupportedCoordSys, Fetcher> = {
             'singleAxis', SINGLE_REFERRING
         ).models[0] as AxisBaseModel;
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (!singleAxisModel) {
                 throw new Error('singleAxis should be specified.');
             }
@@ -156,7 +156,7 @@ const fetchers: Record<SupportedCoordSys, Fetcher> = {
         const radiusAxisModel = polarModel.findAxisModel('radiusAxis');
         const angleAxisModel = polarModel.findAxisModel('angleAxis');
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (!angleAxisModel) {
                 throw new Error('angleAxis option not found');
             }

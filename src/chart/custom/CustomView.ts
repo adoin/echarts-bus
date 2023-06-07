@@ -357,7 +357,7 @@ function createEl(elOption: CustomElementOption): Element {
         const Clz = graphicUtil.getShapeClass(graphicType);
         if (!Clz) {
             let errMsg = '';
-            if (__DEV__) {
+            if (window.__DEV__) {
                 errMsg = 'graphic type "' + graphicType + '" can not be found.';
             }
             throwError(errMsg);
@@ -596,7 +596,7 @@ function makeRenderItem(
     let prepareResult = {} as ReturnType<PrepareCustomInfo>;
 
     if (coordSys) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(renderItem, 'series.render is required.');
             assert(
                 coordSys.prepareCustoms || prepareCustoms[coordSys.type],
@@ -751,7 +751,7 @@ function makeRenderItem(
      * @param dataIndexInside by default `currDataIndexInside`.
      */
     function style(userProps?: ZRStyleProps, dataIndexInside?: number): ZRStyleProps {
-        if (__DEV__) {
+        if (window.__DEV__) {
             warnDeprecated('api.style', 'Please write literal style directly instead.');
         }
 
@@ -794,7 +794,7 @@ function makeRenderItem(
      * @param dataIndexInside by default `currDataIndexInside`.
      */
     function styleEmphasis(userProps?: ZRStyleProps, dataIndexInside?: number): ZRStyleProps {
-        if (__DEV__) {
+        if (window.__DEV__) {
             warnDeprecated('api.styleEmphasis', 'Please write literal style directly instead.');
         }
 
@@ -952,7 +952,7 @@ function doCreateOrUpdateEl(
     group: ViewRootGroup
 ): Element {
 
-    if (__DEV__) {
+    if (window.__DEV__) {
         assert(elOption, 'should not have an null/undefined element setting');
     }
 
@@ -1111,7 +1111,7 @@ function doCreateOrUpdateClipPath(
         }
         if (!clipPath) {
             clipPath = createEl(clipPathOpt) as graphicUtil.Path;
-            if (__DEV__) {
+            if (window.__DEV__) {
                 assert(
                     isPath(clipPath),
                     'Only any type of `path` can be used in `clipPath`, rather than ' + clipPath.type + '.'
@@ -1231,7 +1231,7 @@ function processTxInfo(
         const txConOptNormal = txConOpt as CustomElementOption;
         // `textContent: {type: 'text'}`, the "type" is easy to be missing. So we tolerate it.
         !txConOptNormal.type && (txConOptNormal.type = 'text');
-        if (__DEV__) {
+        if (window.__DEV__) {
             // Do not tolerate incorrcet type for forward compat.
             assert(
                 txConOptNormal.type === 'text',
@@ -1340,7 +1340,7 @@ function mergeChildren(
             );
         }
         else {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 assert(
                     oldChild,
                     'renderItem should not return a group containing elements'

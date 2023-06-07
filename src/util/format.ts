@@ -247,7 +247,7 @@ export function getTooltipMarker(inOpt: ColorString | GetTooltipMarkerOpt, extra
  * @inner
  */
 export function formatTime(tpl: string, value: unknown, isUTC?: boolean) {
-    if (__DEV__) {
+    if (window.__DEV__) {
         deprecateReplaceLog('echarts.format.formatTime', 'echarts.time.format');
     }
 

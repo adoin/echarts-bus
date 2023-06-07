@@ -7888,13 +7888,13 @@
       outputLog('error', str, onlyOnce);
     }
     function deprecateLog(str) {
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         // Not display duplicate message.
         outputLog('warn', 'DEPRECATED: ' + str, true);
       }
     }
     function deprecateReplaceLog(oldOpt, newOpt, scope) {
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         deprecateLog((scope ? "[" + scope + "]" : '') + (oldOpt + " is deprecated, use " + newOpt + " instead."));
       }
     }
@@ -7917,7 +7917,7 @@
 
       var msg = '';
 
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         // Fuzzy stringify for print.
         // This code only exist in dev environment.
         var makePrintableStringIfPossible_1 = function (val) {
@@ -8078,7 +8078,7 @@
           return;
         }
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           // There is some legacy case that name is set as `false`.
           // But should work normally rather than throw error.
           if (cmptOption.id != null && !isValidIdOrName(cmptOption.id)) {
@@ -8316,7 +8316,7 @@
 
 
     function makeComparableKey(val) {
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         if (val == null) {
           throw new Error();
         }
@@ -8334,7 +8334,7 @@
     }
 
     function warnInvalidateIdOrName(idOrName) {
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         warn('`' + idOrName + '` is invalid id or name. Must be a string or number.');
       }
     }
@@ -8653,7 +8653,7 @@
       rootClz.$constructor = rootClz; // FIXME: not necessary?
 
       rootClz.extend = function (proto) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           each(mandatoryMethods, function (method) {
             if (!proto[method]) {
               console.warn('Method `' + method + '` should be implemented' + (proto.type ? ' in ' + proto.type : '') + '.');
@@ -8743,7 +8743,7 @@
       var classAttr = ['__\0is_clz', classBase++].join('_');
       target.prototype[classAttr] = true;
 
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         assert(!target.isInstance, 'The method "is" can not be defined.');
       }
 
@@ -8807,7 +8807,7 @@
           var componentTypeInfo = parseClassType(componentFullType);
 
           if (!componentTypeInfo.sub) {
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               if (storage[componentTypeInfo.main]) {
                 console.warn(componentTypeInfo.main + ' exists.');
               }
@@ -12637,6 +12637,14 @@
         )) {
           var view = api.getViewOfSeriesModel(seriesModel);
           view.group.traverse(function (child) {
+            // For the elements that have been triggered by other components,
+            // and are still required to be highlighted,
+            // because the current is directly forced to blur the element,
+            // it will cause the focus self to be unable to highlight, so skip the blur of this element.
+            if (child.__highByOuter && sameSeries && focus === 'self') {
+              return;
+            }
+
             singleEnterBlur(child);
           });
 
@@ -12693,7 +12701,7 @@
       var data = seriesModel.getData(payload.dataType);
 
       if (!data) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           error("Unknown dataType " + payload.dataType);
         }
 
@@ -12756,7 +12764,7 @@
       var focusSelf;
 
       for (var i = 0; i < dispatchers.length; i++) {
-        if ("development" !== 'production' && !isHighDownDispatcher(dispatchers[i])) {
+        if (window.__DEV__ && !isHighDownDispatcher(dispatchers[i])) {
           error('param should be highDownDispatcher');
         }
 
@@ -12772,7 +12780,7 @@
       };
     }
     function handleGlobalMouseOverForHighDown(dispatcher, e, api) {
-      if ("development" !== 'production' && !isHighDownDispatcher(dispatcher)) {
+      if (window.__DEV__ && !isHighDownDispatcher(dispatcher)) {
         error('param should be highDownDispatcher');
       }
 
@@ -12808,7 +12816,7 @@
       }
     }
     function handleGlobalMouseOutForHighDown(dispatcher, e, api) {
-      if ("development" !== 'production' && !isHighDownDispatcher(dispatcher)) {
+      if (window.__DEV__ && !isHighDownDispatcher(dispatcher)) {
         error('param should be highDownDispatcher');
       }
 
@@ -12899,7 +12907,7 @@
       if (focus != null) {
         // TODO dataIndex may be set after this function. This check is not useful.
         // if (ecData.dataIndex == null) {
-        //     if (__DEV__) {
+        //     if (window.__DEV__) {
         //         console.warn('focus can only been set on element with dataIndex');
         //     }
         // }
@@ -15226,13 +15234,14 @@
       var labelFetcher = opt.labelFetcher;
       var labelDataIndex = opt.labelDataIndex;
       var labelDimIndex = opt.labelDimIndex;
+      var labelValue = opt.labelValue;
       var normalModel = stateModels.normal;
       var baseText;
 
       if (labelFetcher) {
-        baseText = labelFetcher.getFormattedLabel(labelDataIndex, 'normal', null, labelDimIndex, normalModel && normalModel.get('formatter'), interpolatedValue != null ? {
-          interpolatedValue: interpolatedValue
-        } : null);
+        baseText = labelFetcher.getFormattedLabel(labelDataIndex, 'normal', null, labelDimIndex, normalModel && normalModel.get('formatter'), {
+          interpolatedValue: retrieve2(interpolatedValue, labelValue)
+        });
       }
 
       if (baseText == null) {
@@ -15513,7 +15522,7 @@
     }
 
     var TEXT_PROPS_WITH_GLOBAL = ['fontStyle', 'fontWeight', 'fontSize', 'fontFamily', 'textShadowColor', 'textShadowBlur', 'textShadowOffsetX', 'textShadowOffsetY'];
-    var TEXT_PROPS_SELF = ['align', 'lineHeight', 'width', 'height', 'tag', 'verticalAlign'];
+    var TEXT_PROPS_SELF = ['align', 'lineHeight', 'width', 'height', 'tag', 'verticalAlign', 'ellipsis'];
     var TEXT_PROPS_BOX = ['padding', 'borderWidth', 'borderRadius', 'borderDashOffset', 'backgroundColor', 'borderColor', 'shadowColor', 'shadowBlur', 'shadowOffsetX', 'shadowOffsetY'];
 
     function setTokenTextStyle(textStyle, textStyleModel, globalTextStyle, opt, isNotNormal, isAttached, isBlock, inRich) {
@@ -15525,7 +15534,7 @@
       var opacity = retrieve2(textStyleModel.getShallow('opacity'), globalTextStyle.opacity);
 
       if (fillColor === 'inherit' || fillColor === 'auto') {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (fillColor === 'auto') {
             deprecateReplaceLog('color: \'auto\'', 'color: \'inherit\'');
           }
@@ -15539,7 +15548,7 @@
       }
 
       if (strokeColor === 'inherit' || strokeColor === 'auto') {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (strokeColor === 'auto') {
             deprecateReplaceLog('color: \'auto\'', 'color: \'inherit\'');
           }
@@ -15647,7 +15656,7 @@
         }
 
         if ((textStyle.backgroundColor === 'auto' || textStyle.backgroundColor === 'inherit') && inheritColor) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             if (textStyle.backgroundColor === 'auto') {
               deprecateReplaceLog('backgroundColor: \'auto\'', 'backgroundColor: \'inherit\'');
             }
@@ -15657,7 +15666,7 @@
         }
 
         if ((textStyle.borderColor === 'auto' || textStyle.borderColor === 'inherit') && inheritColor) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             if (textStyle.borderColor === 'auto') {
               deprecateReplaceLog('borderColor: \'auto\'', 'borderColor: \'inherit\'');
             }
@@ -16017,7 +16026,7 @@
         each(targetNameSet, function () {
           var errMsg = '';
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             errMsg = makePrintable('Circular dependency may exists: ', targetNameSet, targetNameList, fullNameList);
           }
 
@@ -16536,7 +16545,7 @@
       var monthAbbr = timeModel.get('monthAbbr');
       var dayOfWeek = timeModel.get('dayOfWeek');
       var dayOfWeekAbbr = timeModel.get('dayOfWeekAbbr');
-      return (template || '').replace(/{yyyy}/g, y + '').replace(/{yy}/g, y % 100 + '').replace(/{Q}/g, q + '').replace(/{MMMM}/g, month[M - 1]).replace(/{MMM}/g, monthAbbr[M - 1]).replace(/{MM}/g, pad(M, 2)).replace(/{M}/g, M + '').replace(/{dd}/g, pad(d, 2)).replace(/{d}/g, d + '').replace(/{eeee}/g, dayOfWeek[e]).replace(/{ee}/g, dayOfWeekAbbr[e]).replace(/{e}/g, e + '').replace(/{HH}/g, pad(H, 2)).replace(/{H}/g, H + '').replace(/{hh}/g, pad(h + '', 2)).replace(/{h}/g, h + '').replace(/{mm}/g, pad(m, 2)).replace(/{m}/g, m + '').replace(/{ss}/g, pad(s, 2)).replace(/{s}/g, s + '').replace(/{SSS}/g, pad(S, 3)).replace(/{S}/g, S + '');
+      return (template || '').replace(/{yyyy}/g, y + '').replace(/{yy}/g, pad(y % 100 + '', 2)).replace(/{Q}/g, q + '').replace(/{MMMM}/g, month[M - 1]).replace(/{MMM}/g, monthAbbr[M - 1]).replace(/{MM}/g, pad(M, 2)).replace(/{M}/g, M + '').replace(/{dd}/g, pad(d, 2)).replace(/{d}/g, d + '').replace(/{eeee}/g, dayOfWeek[e]).replace(/{ee}/g, dayOfWeekAbbr[e]).replace(/{e}/g, e + '').replace(/{HH}/g, pad(H, 2)).replace(/{H}/g, H + '').replace(/{hh}/g, pad(h + '', 2)).replace(/{h}/g, h + '').replace(/{mm}/g, pad(m, 2)).replace(/{m}/g, m + '').replace(/{ss}/g, pad(s, 2)).replace(/{s}/g, s + '').replace(/{SSS}/g, pad(S, 3)).replace(/{S}/g, S + '');
     }
     function leveledFormat(tick, idx, formatter, lang, isUTC) {
       var template = null;
@@ -16868,7 +16877,7 @@
      */
 
     function formatTime(tpl, value, isUTC) {
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         deprecateReplaceLog('echarts.format.formatTime', 'echarts.time.format');
       }
 
@@ -18068,7 +18077,7 @@
         return newCmptOptionList;
       }
 
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         for (var i = 0; i < internalOptions.length; i++) {
           assert(isComponentIdInternal(internalOptions[i]));
         }
@@ -18249,7 +18258,7 @@
       };
 
       GlobalModel.prototype.setOption = function (option, opts, optionPreprocessorFuncs) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(option != null, 'option is null/undefined');
           assert(option[OPTION_INNER_KEY] !== OPTION_INNER_VALUE, 'please use chart.getOption()');
         }
@@ -18280,7 +18289,7 @@
         if (!type || type === 'recreate') {
           var baseOption = optionManager.mountOption(type === 'recreate');
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             checkMissingComponents(baseOption);
           }
 
@@ -18415,7 +18424,7 @@
               );
 
               if (!ComponentModelClass) {
-                if ("development" !== 'production') {
+                if (window.__DEV__) {
                   var subType = resultItem.keyInfo.subType;
                   var seriesImportName = BUILTIN_CHARTS_MAP[subType];
 
@@ -18436,7 +18445,7 @@
 
               if (mainType === 'tooltip') {
                 if (tooltipExists) {
-                  if ("development" !== 'production') {
+                  if (window.__DEV__) {
                     if (!tooltipWarningLogged) {
                       warn('Currently only one tooltip component is allowed.');
                       tooltipWarningLogged = true;
@@ -18833,7 +18842,7 @@
         assertSeriesInitialized = function (ecModel) {
           // Components that use _seriesIndices should depends on series component,
           // which make sure that their initialization is after series.
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             if (!ecModel._seriesIndices) {
               throw new Error('Option should contains series.');
             }
@@ -18935,7 +18944,7 @@
     function normalizeSetOptionInput(opts) {
       var replaceMergeMainTypeMap = createHashMap();
       opts && each(normalizeToArray(opts.replaceMerge), function (mainType) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(ComponentModel.hasClass(mainType), '"' + mainType + '" is not valid component main type in "replaceMerge"');
         }
 
@@ -19258,7 +19267,7 @@
       if (hasMedia) {
         if (isArray(mediaOnRoot)) {
           each(mediaOnRoot, function (singleMedia) {
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               // Real case of wrong config.
               if (singleMedia && !singleMedia.option && isObject(singleMedia.query) && isObject(singleMedia.query.option)) {
                 error('Illegal media option. Must be like { media: [ { query: {}, option: {} } ] }');
@@ -19275,7 +19284,7 @@
             }
           });
         } else {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             // Real case of wrong config.
             error('Illegal media option. Must be an array. Like { media: [ {...}, {...} ] }');
           }
@@ -19368,7 +19377,7 @@
         var emphasisItemStyleOpt = itemStyleOpt.emphasis;
 
         if (normalItemStyleOpt && normalItemStyleOpt[styleName]) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             deprecateReplaceLog("itemStyle.normal." + styleName, styleName);
           }
 
@@ -19384,7 +19393,7 @@
         }
 
         if (emphasisItemStyleOpt && emphasisItemStyleOpt[styleName]) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             deprecateReplaceLog("itemStyle.emphasis." + styleName, "emphasis." + styleName);
           }
 
@@ -19407,7 +19416,7 @@
         var emphasisOpt = opt[optType].emphasis;
 
         if (normalOpt) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             // eslint-disable-next-line max-len
             deprecateLog("'normal' hierarchy in " + optType + " has been removed since 4.0. All style properties are configured in " + optType + " directly now.");
           } // Timeline controlStyle has other properties besides normal and emphasis
@@ -19422,7 +19431,7 @@
         }
 
         if (emphasisOpt) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             deprecateLog(optType + ".emphasis has been changed to emphasis." + optType + " since 4.0");
           }
 
@@ -19459,7 +19468,7 @@
       var textStyle = isObject$1(labelOptSingle) && labelOptSingle.textStyle;
 
       if (textStyle) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           // eslint-disable-next-line max-len
           deprecateLog("textStyle hierarchy in " + propName + " has been removed since 4.0. All textStyle properties are configured in " + propName + " directly now.");
         }
@@ -19631,7 +19640,7 @@
           radarOpt.axisName = radarOpt.name;
           delete radarOpt.name;
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             deprecateLog('name property in radar component has been changed to axisName');
           }
         }
@@ -19640,12 +19649,12 @@
           radarOpt.axisNameGap = radarOpt.nameGap;
           delete radarOpt.nameGap;
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             deprecateLog('nameGap property in radar component has been changed to axisNameGap');
           }
         }
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           each$2(radarOpt.indicator, function (indicatorOpt) {
             if (indicatorOpt.text) {
               deprecateReplaceLog('text', 'name', 'radar.indicator');
@@ -19744,7 +19753,7 @@
           if (itemStyle[oldName] != null) {
             itemStyle[newName] = itemStyle[oldName];
 
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               deprecateReplaceLog(oldName, newName);
             }
           }
@@ -19758,7 +19767,7 @@
       }
 
       if (option.alignTo === 'edge' && option.margin != null && option.edgeDistance == null) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           deprecateReplaceLog('label.margin', 'label.edgeDistance', 'pie');
         }
 
@@ -19774,7 +19783,7 @@
       if (option.downplay && !option.blur) {
         option.blur = option.downplay;
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           deprecateReplaceLog('downplay', 'blur', 'sunburst');
         }
       }
@@ -19789,7 +19798,7 @@
         option.emphasis = option.emphasis || {};
 
         if (option.emphasis.focus == null) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             deprecateReplaceLog('focusNodeAdjacency', 'emphasis: { focus: \'adjacency\'}', 'graph/sankey');
           }
 
@@ -19822,7 +19831,7 @@
           if (seriesOpt.clipOverflow != null) {
             seriesOpt.clip = seriesOpt.clipOverflow;
 
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               deprecateReplaceLog('clipOverflow', 'clip', 'line');
             }
           }
@@ -19830,7 +19839,7 @@
           if (seriesOpt.clockWise != null) {
             seriesOpt.clockwise = seriesOpt.clockWise;
 
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               deprecateReplaceLog('clockWise', 'clockwise');
             }
           }
@@ -19848,7 +19857,7 @@
             seriesOpt.emphasis = seriesOpt.emphasis || {};
 
             if (seriesOpt.emphasis.scaleSize = null) {
-              if ("development" !== 'production') {
+              if (window.__DEV__) {
                 deprecateReplaceLog('hoverOffset', 'emphasis.scaleSize');
               }
 
@@ -19881,7 +19890,7 @@
             if (!seriesOpt.emphasis.focus) {
               seriesOpt.emphasis.focus = highlightPolicy;
 
-              if ("development" !== 'production') {
+              if (window.__DEV__) {
                 deprecateReplaceLog('highlightPolicy', 'emphasis.focus', 'sunburst');
               }
             }
@@ -19893,7 +19902,7 @@
           compatGraphFocus(seriesOpt); // TODO nodes, edges?
         } else if (seriesType === 'map') {
           if (seriesOpt.mapType && !seriesOpt.map) {
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               deprecateReplaceLog('mapType', 'map', 'map');
             }
 
@@ -19901,7 +19910,7 @@
           }
 
           if (seriesOpt.mapLocation) {
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               deprecateLog('`mapLocation` is not used anymore.');
             }
 
@@ -19913,7 +19922,7 @@
           seriesOpt.emphasis = seriesOpt.emphasis || {};
 
           if (seriesOpt.emphasis && seriesOpt.emphasis.scale == null) {
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               deprecateReplaceLog('hoverAnimation', 'emphasis.scale');
             }
 
@@ -20226,7 +20235,7 @@
         var value0 = getDataItemValue(data[0]);
         dimensionsDetectedCount = isArray(value0) && value0.length || 1;
       } else if (sourceFormat === SOURCE_FORMAT_TYPED_ARRAY) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(!!dimensionsDefine, 'dimensions must be given if data is TypedArray.');
         }
       }
@@ -20382,7 +20391,7 @@
         var data = this._data = source.data; // Typed array. TODO IE10+?
 
         if (source.sourceFormat === SOURCE_FORMAT_TYPED_ARRAY) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             if (dimSize == null) {
               throw new Error('Typed array data must specify dimension size');
             }
@@ -20430,7 +20439,7 @@
           var dimsDef = source.dimensionsDefine;
           var methods = providerMethods[getMethodMapKey(sourceFormat, seriesLayoutBy)];
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             assert(methods, 'Invalide sourceFormat: ' + sourceFormat);
           }
 
@@ -20519,7 +20528,7 @@
           persistent: false,
           pure: true,
           appendData: function (newData) {
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               assert(isTypedArray(newData), 'Added data must be TypedArray if data in initialization is TypedArray');
             }
 
@@ -20566,7 +20575,7 @@
       for (var i = 0; i < dimsDef.length; i++) {
         var dimName = dimsDef[i].name;
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (dimName == null) {
             throw new Error();
           }
@@ -20581,7 +20590,7 @@
     function getRawSourceItemGetter(sourceFormat, seriesLayoutBy) {
       var method = rawSourceItemGetterMap[getMethodMapKey(sourceFormat, seriesLayoutBy)];
 
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         assert(method, 'Do not support get item on "' + sourceFormat + '", "' + seriesLayoutBy + '".');
       }
 
@@ -20600,7 +20609,7 @@
     }, _b[SOURCE_FORMAT_OBJECT_ROWS] = countSimply, _b[SOURCE_FORMAT_KEYED_COLUMNS] = function (rawData, startIndex, dimsDef) {
       var dimName = dimsDef[0].name;
 
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         if (dimName == null) {
           throw new Error();
         }
@@ -20612,7 +20621,7 @@
     function getRawSourceDataCounter(sourceFormat, seriesLayoutBy) {
       var method = rawSourceDataCounterMap[getMethodMapKey(sourceFormat, seriesLayoutBy)];
 
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         assert(method, 'Do not support count on "' + sourceFormat + '", "' + seriesLayoutBy + '".');
       }
 
@@ -20634,7 +20643,7 @@
     function getRawSourceValueGetter(sourceFormat) {
       var method = rawSourceValueGetterMap[sourceFormat];
 
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         assert(method, 'Do not support get value on "' + sourceFormat + '".');
       }
 
@@ -20774,7 +20783,7 @@
             if (dimLoose.charAt(0) === '[' && dimLoose.charAt(len - 1) === ']') {
               dimLoose = +dimLoose.slice(1, len - 1); // Also support: '[]' => 0
 
-              if ("development" !== 'production') {
+              if (window.__DEV__) {
                 if (isNaN(dimLoose)) {
                   error("Invalide label formatter: @" + dimStr + ", only support @[0], @[1], @[2], ...");
                 }
@@ -20841,7 +20850,7 @@
         if (result.type) {
           markupFragment = result;
         } else {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             console.warn('The return type of `formatTooltip` is not supported: ' + makePrintable(result));
           }
         } // else {
@@ -20942,14 +20951,14 @@
         var step = performArgs && performArgs.step;
 
         if (upTask) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             assert(upTask._outputDueEnd != null);
           }
 
           this._dueEnd = upTask._outputDueEnd;
         } // DataTask or overallTask
         else {
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               assert(!this._progress || this._count);
             }
 
@@ -20979,7 +20988,7 @@
 
           var outputDueEnd = this._settedOutputEnd != null ? this._settedOutputEnd : end;
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             // ??? Can not rollback.
             assert(outputDueEnd >= this._outputDueEnd);
           }
@@ -21049,7 +21058,7 @@
 
 
       Task.prototype.pipe = function (downTask) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(downTask && !downTask._disposed && downTask !== this);
         } // If already downstream, do not dirty downTask.
 
@@ -21394,7 +21403,7 @@
         // For the logic simplicity in transformer, only 'culumn' is
         // supported in data transform. Otherwise, the `dimensionsDefine`
         // might be detected by 'row', which probably confuses users.
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           errMsg = '`seriesLayoutBy` of upstream dataset can only be "column" in data transform.';
         }
 
@@ -21429,7 +21438,7 @@
             var errMsg_1 = '';
 
             if (hasOwn(dimsByName, name)) {
-              if ("development" !== 'production') {
+              if (window.__DEV__) {
                 errMsg_1 = 'dimension name "' + name + '" duplicated.';
               }
 
@@ -21495,7 +21504,7 @@
       if (!isSupportedSourceFormat(sourceFormat)) {
         var errMsg = '';
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           errMsg = '`getRawData` is not supported in source format ' + sourceFormat;
         }
 
@@ -21512,7 +21521,7 @@
       if (!isSupportedSourceFormat(sourceFormat)) {
         var errMsg = '';
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           errMsg = '`cloneRawData` is not supported in source format ' + sourceFormat;
         }
 
@@ -21565,7 +21574,7 @@
       var errMsg = '';
 
       if (!type) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           errMsg = 'Must have a `type` when `registerTransform`.';
         }
 
@@ -21575,7 +21584,7 @@
       var typeParsed = type.split(':');
 
       if (typeParsed.length !== 2) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           errMsg = 'Name must include namespace like "ns:regression".';
         }
 
@@ -21600,7 +21609,7 @@
       var errMsg = '';
 
       if (!pipeLen) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           errMsg = 'If `transform` declared, it should at least contain one transform.';
         }
 
@@ -21625,7 +21634,7 @@
       var errMsg = '';
 
       if (!upSourceList.length) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           errMsg = 'Must have at least one upstream dataset.';
         }
 
@@ -21633,7 +21642,7 @@
       }
 
       if (!isObject(transOption)) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           errMsg = 'transform declaration must be an object rather than ' + typeof transOption + '.';
         }
 
@@ -21644,7 +21653,7 @@
       var externalTransform = externalTransformMap.get(transType);
 
       if (!externalTransform) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           errMsg = 'Can not find transform on type "' + transType + '".';
         }
 
@@ -21661,7 +21670,7 @@
         config: clone(transOption.config)
       }));
 
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         if (transOption.print) {
           var printStrArr = map(resultList, function (extSource) {
             var pipeIndexStr = pipeIndex != null ? ' === pipe index: ' + pipeIndex : '';
@@ -21675,7 +21684,7 @@
         var errMsg = '';
 
         if (!isObject(result)) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             errMsg = 'A transform should not return some empty results.';
           }
 
@@ -21683,7 +21692,7 @@
         }
 
         if (!result.data) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             errMsg = 'Transform result data should be not be null or undefined';
           }
 
@@ -21693,7 +21702,7 @@
         var sourceFormat = detectSourceFormat(result.data);
 
         if (!isSupportedSourceFormat(sourceFormat)) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             errMsg = 'Transform result data should be array rows or object rows.';
           }
 
@@ -21841,7 +21850,7 @@
 
 
       DataStore.prototype.initData = function (provider, inputDimensions, dimValueGetter) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(isFunction(provider.getItem) && isFunction(provider.count), 'Invalid data provider.');
         }
 
@@ -21858,7 +21867,7 @@
         this._rawExtent = [];
         var willRetrieveDataByName = shouldRetrieveDataByName(source);
         this._dimensions = map(inputDimensions, function (dim) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             if (willRetrieveDataByName) {
               assert(dim.property != null);
             }
@@ -21961,7 +21970,7 @@
 
 
       DataStore.prototype.appendData = function (data) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(!this._indices, 'appendData can only be called on raw data.');
         }
 
@@ -23133,7 +23142,7 @@
             }
         }
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(resultSourceList && upstreamSignList);
         }
 
@@ -23145,7 +23154,7 @@
         var transformOption = datasetModel.get('transform', true);
         var fromTransformResult = datasetModel.get('fromTransformResult', true);
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(fromTransformResult != null || transformOption != null);
         }
 
@@ -23153,7 +23162,7 @@
           var errMsg = '';
 
           if (upMgrList.length !== 1) {
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               errMsg = 'When using `fromTransformResult`, there should be only one upstream dataset';
             }
 
@@ -23170,7 +23179,7 @@
           var errMsg = '';
 
           if (fromTransformResult != null && !upSource) {
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               errMsg = 'Can not retrieve result by `fromTransformResult`: ' + fromTransformResult;
             }
 
@@ -23243,7 +23252,7 @@
 
 
       SourceManager.prototype.getSharedDataStore = function (seriesDimRequest) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(isSeries(this._sourceHost), 'Can only call getDataStore on series source manager.');
         }
 
@@ -23611,7 +23620,7 @@
         if (isString(marker)) {
           return marker;
         } else {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             assert(markerId);
           }
 
@@ -23804,7 +23813,7 @@
         wrapData(data, this);
         this.dataTask.context.data = data;
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(data, 'getInitialData returned invalid data.');
         }
 
@@ -24444,7 +24453,7 @@
       ChartView.prototype.init = function (ecModel, api) {};
 
       ChartView.prototype.render = function (seriesModel, ecModel, api, payload) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           throw new Error('render method must been implemented');
         }
       };
@@ -24457,7 +24466,7 @@
         var data = seriesModel.getData(payload && payload.dataType);
 
         if (!data) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             error("Unknown dataType " + payload.dataType);
           }
 
@@ -24475,7 +24484,7 @@
         var data = seriesModel.getData(payload && payload.dataType);
 
         if (!data) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             error("Unknown dataType " + payload.dataType);
           }
 
@@ -25232,7 +25241,7 @@
           var record = stageTaskMap.get(handler.uid) || stageTaskMap.set(handler.uid, {});
           var errMsg = '';
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             // Currently do not need to support to sepecify them both.
             errMsg = '"reset" and "overallReset" must not be both specified.';
           }
@@ -25434,7 +25443,7 @@
 
         var errMsg = '';
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           errMsg = '"createOnAllSeries" is not supported for "overallReset", ' + 'because it will block all streams.';
         }
 
@@ -26140,7 +26149,7 @@
           return data.getItemVisual(dataIndex, key);
 
         default:
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             console.warn("Unknown visual type " + key);
           }
 
@@ -26161,7 +26170,7 @@
           return data.getVisual(key);
 
         default:
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             console.warn("Unknown visual type " + key);
           }
 
@@ -26187,7 +26196,7 @@
         ecRegisterAction(eventsMap[0], function (payload, ecModel, api) {
           payload = extend({}, payload);
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             deprecateReplaceLog(payload.type, eventsMap[1]);
           }
 
@@ -26203,7 +26212,7 @@
       var legacyEventName = type + eventPostfix;
 
       if (!ecIns.isSilent(legacyEventName)) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           deprecateLog("event " + legacyEventName + " is deprecated.");
         }
 
@@ -27459,7 +27468,7 @@
           width *= symbolRepeats;
           var height = lineBlockLengthY * lineBlockLengthsX.length * symbolArray.length;
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             var warn = function (attrName) {
               /* eslint-disable-next-line */
               console.warn("Calculated decal size is greater than " + attrName + " due to decal option settings so " + attrName + " is used for the decal size. Please consider changing the decal option to make a smaller decal or set " + attrName + " to be larger to avoid incontinuity.");
@@ -27770,7 +27779,7 @@
     var implsStore = {}; // TODO Type
 
     function registerImpl(name, impl) {
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         if (implsStore[name]) {
           error("Already has an implementation of " + name + ".");
         }
@@ -27779,7 +27788,7 @@
       implsStore[name] = impl;
     }
     function getImpl(name) {
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         if (!implsStore[name]) {
           error("Implementation of " + name + " doesn't exists.");
         }
@@ -27948,7 +27957,7 @@
         var defaultCoarsePointer = 'auto';
         var defaultUseDirtyRect = false;
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           var root =
           /* eslint-disable-next-line */
           env.hasGlobalWindow ? window : global;
@@ -27996,6 +28005,13 @@
         bindMouseEvent(zr, _this); // ECharts instance can be used as value.
 
         setAsPrimitive(_this);
+
+        if (window.__echarts_mitt_watcher) {
+          window.__echarts_mitt_watcher.on('setTheme', function (themeCode) {
+            _this.setTheme(themeCode);
+          });
+        }
+
         return _this;
       }
 
@@ -28066,6 +28082,10 @@
           }
       };
 
+      ECharts.prototype.getBackupArguments = function () {
+        return this._backupArguments;
+      };
+
       ECharts.prototype.getDom = function () {
         return this._dom;
       };
@@ -28085,8 +28105,10 @@
 
 
       ECharts.prototype.setOption = function (option, notMerge, lazyUpdate) {
+        this._backupArguments = [option, notMerge, lazyUpdate];
+
         if (this[IN_MAIN_PROCESS_KEY]) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             error('`setOption` should not be called during main process.');
           }
 
@@ -28162,13 +28184,13 @@
           triggerUpdatedEvent.call(this, silent);
         }
       };
-      /**
-       * @deprecated
-       */
 
-
-      ECharts.prototype.setTheme = function () {
-        deprecateLog('ECharts#setTheme() is DEPRECATED in ECharts 3.0');
+      ECharts.prototype.setTheme = function (themeCode) {
+        // todo recovery theme change
+        var args = clone(this.getBackupArguments());
+        this.clear();
+        this._theme = themeStorage[themeCode];
+        this.setOption(args[0], true, args[2]);
       }; // We don't want developers to use getModel directly.
 
 
@@ -28200,7 +28222,7 @@
 
 
       ECharts.prototype.getRenderedCanvas = function (opts) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           deprecateReplaceLog('getRenderedCanvas', 'renderToCanvas');
         }
 
@@ -28211,7 +28233,7 @@
         opts = opts || {};
         var painter = this._zr.painter;
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (painter.type !== 'canvas') {
             throw new Error('renderToCanvas can only be used in the canvas renderer.');
           }
@@ -28227,7 +28249,7 @@
         opts = opts || {};
         var painter = this._zr.painter;
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (painter.type !== 'svg') {
             throw new Error('renderToSVGString can only be used in the svg renderer.');
           }
@@ -28419,12 +28441,12 @@
               if (view && view.containPoint) {
                 result = result || view.containPoint(value, model);
               } else {
-                if ("development" !== 'production') {
+                if (window.__DEV__) {
                   warn(key + ': ' + (view ? 'The found component do not support containPoint.' : 'No view mapping to the found component.'));
                 }
               }
             } else {
-              if ("development" !== 'production') {
+              if (window.__DEV__) {
                 warn(key + ': containPoint is not supported');
               }
             }
@@ -28456,7 +28478,7 @@
         });
         var seriesModel = parsedFinder.seriesModel;
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (!seriesModel) {
             warn('There is no specified series model');
           }
@@ -28502,7 +28524,7 @@
 
                 if (ecData && ecData.dataIndex != null) {
                   var dataModel = ecData.dataModel || ecModel.getSeriesByIndex(ecData.seriesIndex);
-                  params = dataModel && dataModel.getDataParams(ecData.dataIndex, ecData.dataType) || {};
+                  params = dataModel && dataModel.getDataParams(ecData.dataIndex, ecData.dataType, el) || {};
                   return true;
                 } // If element has custom eventData of components
                 else if (ecData.eventData) {
@@ -28535,7 +28557,7 @@
               var model = componentType && componentIndex != null && ecModel.getComponent(componentType, componentIndex);
               var view = model && _this[model.mainType === 'series' ? '_chartsMap' : '_componentsMap'][model.__viewId];
 
-              if ("development" !== 'production') {
+              if (window.__DEV__) {
                 // `event.componentType` and `event[componentTpype + 'Index']` must not
                 // be missed, otherwise there is no way to distinguish source component.
                 // See `dataFormat.getDataParams`.
@@ -28633,7 +28655,7 @@
 
       ECharts.prototype.resize = function (opts) {
         if (this[IN_MAIN_PROCESS_KEY]) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             error('`resize` should not be called during main process.');
           }
 
@@ -28705,7 +28727,7 @@
         this.hideLoading();
 
         if (!loadingEffects[name]) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             warn('Loading effects ' + name + ' not exists.');
           }
 
@@ -28813,7 +28835,7 @@
         var ecModel = this.getModel();
         var seriesModel = ecModel.getSeriesByIndex(seriesIndex);
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(params.data && seriesModel);
         }
 
@@ -28884,7 +28906,7 @@
               // But need a base class to make a type series.
               ChartView.getClass(classType.sub);
 
-              if ("development" !== 'production') {
+              if (window.__DEV__) {
                 assert(Clazz, classType.sub + ' does not exist.');
               }
 
@@ -29204,7 +29226,7 @@
             }
           }
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             warn('No coordinate system that supports ' + methodName + ' found by the given finder.');
           }
         };
@@ -29921,7 +29943,7 @@
     var MOUSE_EVENT_NAMES = ['click', 'dblclick', 'mouseover', 'mouseout', 'mousemove', 'mousedown', 'mouseup', 'globalout', 'contextmenu'];
 
     function disposedWarning(id) {
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         warn('Instance ' + id + ' has been disposed');
       }
     }
@@ -29957,7 +29979,7 @@
       var isClient = !(opts && opts.ssr);
 
       if (isClient) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (!dom) {
             throw new Error('Initialize failed: invalid dom.');
           }
@@ -29966,14 +29988,14 @@
         var existInstance = getInstanceByDom(dom);
 
         if (existInstance) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             warn('There is a chart instance already initialized on the dom.');
           }
 
           return existInstance;
         }
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (isDom(dom) && dom.nodeName.toUpperCase() !== 'CANVAS' && (!dom.clientWidth && (!opts || opts.width == null) || !dom.clientHeight && (!opts || opts.height == null))) {
             warn('Can\'t get DOM width or height. Please check ' + 'dom.clientWidth and dom.clientHeight. They should not be 0.' + 'For example, you may need to call this in the callback ' + 'of window.onload.');
           }
@@ -30160,7 +30182,7 @@
         priority = defaultPriority;
       }
 
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         if (isNaN(priority) || priority == null) {
           throw new Error('Illegal priority');
         } // Check duplicate
@@ -30204,7 +30226,7 @@
      */
 
     function setCanvasCreator(creator) {
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         deprecateLog('setCanvasCreator is deprecated. Use setPlatformAPI({ createCanvas }) instead.');
       }
 
@@ -30684,7 +30706,7 @@
         var coordDim = dimItem.coordDim;
 
         if (coordDim) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             assert(VISUAL_DIMENSIONS.get(coordDim) == null);
           }
 
@@ -31156,7 +31178,7 @@
             this._idDimIdx = i;
           }
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             assert(assignStoreDimIdx || dimensionInfo.storeDimIndex >= 0);
           }
 
@@ -31278,7 +31300,7 @@
       SeriesData.prototype._getStoreDimIndex = function (dim) {
         var dimIdx = this.getDimensionIndex(dim);
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (dimIdx == null) {
             throw new Error('Unknown dimension ' + dim);
           }
@@ -31699,7 +31721,7 @@
       SeriesData.prototype.rawIndexOf = function (dim, value) {
         var invertedIndices = dim && this._invertedIndicesMap[dim];
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (!invertedIndices) {
             throw new Error('Do not supported yet');
           }
@@ -31811,7 +31833,7 @@
 
         var fCtx = ctx || ctxCompat || this;
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           each(normalizeDimensions(dims), function (dim) {
             var dimInfo = _this.getDimensionInfo(dim);
 
@@ -32545,7 +32567,7 @@
         var xAxisModel = seriesModel.getReferringComponents('xAxis', SINGLE_REFERRING).models[0];
         var yAxisModel = seriesModel.getReferringComponents('yAxis', SINGLE_REFERRING).models[0];
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (!xAxisModel) {
             throw new Error('xAxis "' + retrieve(seriesModel.get('xAxisIndex'), seriesModel.get('xAxisId'), 0) + '" not found');
           }
@@ -32572,7 +32594,7 @@
       singleAxis: function (seriesModel, result, axisMap, categoryAxisMap) {
         var singleAxisModel = seriesModel.getReferringComponents('singleAxis', SINGLE_REFERRING).models[0];
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (!singleAxisModel) {
             throw new Error('singleAxis should be specified.');
           }
@@ -32591,7 +32613,7 @@
         var radiusAxisModel = polarModel.findAxisModel('radiusAxis');
         var angleAxisModel = polarModel.findAxisModel('angleAxis');
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (!angleAxisModel) {
             throw new Error('angleAxis option not found');
           }
@@ -34613,7 +34635,7 @@
         }
       }
 
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         if (iter >= safeLimit) {
           warn('Exceed safe limit.');
         }
@@ -34870,7 +34892,7 @@
           var boundaryGapArr = isArray(boundaryGap) ? boundaryGap : [boundaryGap || 0, boundaryGap || 0];
 
           if (typeof boundaryGapArr[0] === 'boolean' || typeof boundaryGapArr[1] === 'boolean') {
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               console.warn('Boolean type for boundaryGap is only ' + 'allowed for ordinal axis. Please use string in ' + 'percentage instead, e.g., "20%". Currently, ' + 'boundaryGap is set to be 0.');
             }
 
@@ -34965,7 +34987,7 @@
       };
 
       ScaleRawExtentInfo.prototype.modifyDataMinMax = function (minMaxName, val) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(!this.frozen);
         }
 
@@ -34975,7 +34997,7 @@
       ScaleRawExtentInfo.prototype.setDeterminedMinMax = function (minMaxName, val) {
         var attr = DETERMINED_MIN_MAX_ATTR[minMaxName];
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(!this.frozen // Earse them usually means logic flaw.
           && this[attr] == null);
         }
@@ -36567,7 +36589,7 @@
       if (ticksLen === 1) {
         ticksCoords[0].coord = axisExtent[0];
         last = ticksCoords[1] = {
-          coord: axisExtent[0]
+          coord: axisExtent[1]
         };
       } else {
         var crossLen = ticksCoords[ticksLen - 1].tickValue - ticksCoords[0].tickValue;
@@ -39667,7 +39689,7 @@
       }
 
       LineSeriesModel.prototype.getInitialData = function (option) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           var coordSys = option.coordinateSystem;
 
           if (coordSys !== 'polar' && coordSys !== 'cartesian2d') {
@@ -41251,7 +41273,7 @@
       }
 
       if (coordSys.type !== 'cartesian2d') {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           console.warn('Visual map on line style is only supported on cartesian2d.');
         }
 
@@ -41272,7 +41294,7 @@
       }
 
       if (!visualMeta) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           console.warn('Visual map on line style only support x or y dimension.');
         }
 
@@ -41510,7 +41532,7 @@
 
         return clipPath;
       } else {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (seriesModel.get(['endLabel', 'show'])) {
             console.warn('endLabel is not supported for lines in polar systems.');
           }
@@ -43008,7 +43030,7 @@
           // Clear previously rendered progressive elements.
           this._progressiveEls = null;
           this._isLargeDraw ? this._renderLarge(seriesModel, ecModel, api) : this._renderNormal(seriesModel, ecModel, api, payload);
-        } else if ("development" !== 'production') {
+        } else if (window.__DEV__) {
           warn('Only cartesian2d and polar supported for bar.');
         }
       };
@@ -43572,7 +43594,7 @@
       var realtimeSortOption = seriesModel.get('realtimeSort', true);
       var baseAxis = coordSys.getBaseAxis();
 
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         if (realtimeSortOption) {
           if (baseAxis.type !== 'category') {
             warn('`realtimeSort` will not work because this bar series is not based on a category axis.');
@@ -46441,7 +46463,7 @@
         var axisType = key.replace(/Model$/, '');
         var axisModel = seriesModel.getReferringComponents(axisType, SINGLE_REFERRING).models[0];
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (!axisModel) {
             throw new Error(axisType + ' "' + retrieve3(seriesModel.get(axisType + 'Index'), seriesModel.get(axisType + 'Id'), 0) + '" not found');
           }
@@ -46543,7 +46565,7 @@
         intervalScaleProto.setNiceExtent.call(scale, min + interval, max - interval);
       }
 
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         var ticks = intervalScaleProto.getTicks.call(scale);
 
         if (ticks[1] && (!isValueNice(interval) || getPrecisionSafe(ticks[1].value) > getPrecisionSafe(interval))) {
@@ -46967,7 +46989,7 @@
           var yAxisModel = axesModelMap.yAxisModel;
           var gridModel = xAxisModel.getCoordSysModel();
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             if (!gridModel) {
               throw new Error('Grid "' + retrieve3(xAxisModel.get('gridIndex'), xAxisModel.get('gridId'), 0) + '" not found');
             }
@@ -47652,6 +47674,7 @@
          *      coordSys,
          *      axisPointerModel,
          *      triggerTooltip,
+         *      triggerEmphasis,
          *      involveSeries,
          *      snap,
          *      seriesModels,
@@ -47731,6 +47754,7 @@
 
           axisPointerModel = fromTooltip ? makeAxisPointerModel(axis, baseTooltipModel, globalAxisPointerModel, ecModel, fromTooltip, triggerTooltip) : axisPointerModel;
           var snap = axisPointerModel.get('snap');
+          var triggerEmphasis = axisPointerModel.get('triggerEmphasis');
           var axisKey = makeKey(axis.model);
           var involveSeries = triggerTooltip || snap || axis.type === 'category'; // If result.axesInfo[key] exist, override it (tooltip has higher priority).
 
@@ -47740,6 +47764,7 @@
             coordSys: coordSys,
             axisPointerModel: axisPointerModel,
             triggerTooltip: triggerTooltip,
+            triggerEmphasis: triggerEmphasis,
             involveSeries: involveSeries,
             snap: snap,
             useHandle: isHandleTrigger(axisPointerModel),
@@ -47999,7 +48024,7 @@
       };
 
       AxisView.registerAxisPointerClass = function (type, clazz) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (axisPointerClazz[type]) {
             throw new Error('axisPointer ' + type + ' exists');
           }
@@ -49084,6 +49109,7 @@
         // see `modelHelper`.
         snap: false,
         triggerTooltip: true,
+        triggerEmphasis: true,
         value: null,
         status: null,
         link: [],
@@ -49653,7 +49679,7 @@
 
       each(axesInfo, function (axisInfo, key) {
         var option = axisInfo.axisPointerModel.option;
-        option.status === 'show' && each(option.seriesDataIndices, function (batchItem) {
+        option.status === 'show' && axisInfo.triggerEmphasis && each(option.seriesDataIndices, function (batchItem) {
           var key = batchItem.seriesIndex + ' | ' + batchItem.dataIndex;
           newHighlights[key] = batchItem;
         });
@@ -49783,7 +49809,7 @@
 
       if ($action === 'merge') {
         if (existElOption) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             var newType = newElOption.type;
             assert(!newType || existElOption.type === newType, 'Please set $action: "replace" to change `type`');
           } // We can ensure that newElOptCopy and existElOption are not
@@ -49899,7 +49925,7 @@
         each(mappingResult, function (resultItem, index) {
           var newElOption = resultItem.newOption;
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             assert(isObject(newElOption) || resultItem.existing, 'Empty graphic option definition');
           }
 
@@ -50296,7 +50322,7 @@
     var transitionDuringAPI = {
       // Usually other props do not need to be changed in animation during.
       setTransform: function (key, val) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(hasOwn(TRANSFORM_PROPS_MAP, key), 'Only ' + transformPropNamesStr + ' available in `setTransform`.');
         }
 
@@ -50304,14 +50330,14 @@
         return this;
       },
       getTransform: function (key) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(hasOwn(TRANSFORM_PROPS_MAP, key), 'Only ' + transformPropNamesStr + ' available in `getTransform`.');
         }
 
         return tmpDuringScope.el[key];
       },
       setShape: function (key, val) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assertNotReserved(key);
         }
 
@@ -50322,7 +50348,7 @@
         return this;
       },
       getShape: function (key) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assertNotReserved(key);
         }
 
@@ -50333,7 +50359,7 @@
         }
       },
       setStyle: function (key, val) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assertNotReserved(key);
         }
 
@@ -50341,7 +50367,7 @@
         var style = el.style;
 
         if (style) {
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             if (eqNaN(val)) {
               warn('style.' + key + ' must not be assigned with NaN.');
             }
@@ -50354,7 +50380,7 @@
         return this;
       },
       getStyle: function (key) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assertNotReserved(key);
         }
 
@@ -50365,7 +50391,7 @@
         }
       },
       setExtra: function (key, val) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assertNotReserved(key);
         }
 
@@ -50374,7 +50400,7 @@
         return this;
       },
       getExtra: function (key) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assertNotReserved(key);
         }
 
@@ -50387,7 +50413,7 @@
     };
 
     function assertNotReserved(key) {
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         if (key === 'transition' || key === 'enterFrom' || key === 'leaveTo') {
           throw new Error('key must not be "' + key + '"');
         }
@@ -50504,7 +50530,7 @@
 
         var elVal = el[key];
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           checkTransformPropRefer(key, 'el.transition');
         } // Do not clone, animator will perform that clone.
 
@@ -50584,7 +50610,7 @@
 
     var checkTransformPropRefer;
 
-    if ("development" !== 'production') {
+    if (window.__DEV__) {
       checkTransformPropRefer = function (key, usedIn) {
         if (!hasOwn(TRANSFORM_PROPS_MAP, key)) {
           warn('Prop `' + key + '` is not a permitted in `' + usedIn + '`. ' + 'Only `' + keys(TRANSFORM_PROPS_MAP).join('`, `') + '` are permitted.');
@@ -50648,7 +50674,7 @@
           var animators = el.animators;
           var kfValues = targetPropName ? kf[targetPropName] : kf;
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             if (kf.percent >= 1) {
               endFrameIsSet = true;
             }
@@ -50696,7 +50722,7 @@
           return;
         }
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (!endFrameIsSet) {
             warn('End frame with percent: 1 is missing in the keyframeAnimation.', true);
           }
@@ -50806,7 +50832,7 @@
 
           var elOptionCleaned = getCleanedElOption(elOption); // For simple, do not support parent change, otherwise reorder is needed.
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             elExisting && assert(targetElParent === elExisting.parent, 'Changing parent is not supported.');
           }
 
@@ -51001,7 +51027,7 @@
     }(ComponentView);
 
     function newEl(graphicType) {
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         assert(graphicType, 'graphic type MUST be set');
       }
 
@@ -51009,7 +51035,7 @@
       // overwritten by users, so do them first.
       ? nonShapeGraphicElements[graphicType] : getShapeClass(graphicType);
 
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         assert(Clz, "graphic type " + graphicType + " can not be found");
       }
 
@@ -51138,7 +51164,7 @@
       return indexOf(SERIES_COORDS, coordType) >= 0;
     }
     function getAxisMainType(axisDim) {
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         assert(axisDim);
       }
 
@@ -51571,7 +51597,7 @@
 
 
       DataZoomModel.prototype.getAxisModel = function (axisDim, axisIndex) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(axisDim && axisIndex != null);
         }
 
@@ -51685,7 +51711,7 @@
       };
 
       DataZoomModel.prototype.getOrient = function () {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           // Should not be called before initialized.
           assert(this._orient);
         }
@@ -53388,7 +53414,7 @@
         addEventListener(closeButton, 'click', close);
         addEventListener(refreshButton, 'click', function () {
           if (contentToOption == null && optionToContent != null || contentToOption != null && optionToContent == null) {
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               // eslint-disable-next-line
               warn('It seems you have just provided one of `contentToOption` and `optionToContent` functions but missed the other one. Data change is ignored.');
             }
@@ -53743,7 +53769,7 @@
         _this._covers = [];
         _this._handlers = {};
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(zr);
         }
 
@@ -53761,7 +53787,7 @@
 
 
       BrushController.prototype.enableBrush = function (brushOption) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(this._mounted);
         }
 
@@ -53813,7 +53839,7 @@
       BrushController.prototype.mount = function (opt) {
         opt = opt || {};
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           this._mounted = true; // should be at first.
         }
 
@@ -53843,7 +53869,7 @@
 
 
       BrushController.prototype.updateCovers = function (coverConfigList) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(this._mounted);
         }
 
@@ -53886,7 +53912,7 @@
       };
 
       BrushController.prototype.unmount = function () {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (!this._mounted) {
             return;
           }
@@ -53898,7 +53924,7 @@
 
         this._zr.remove(this.group);
 
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           this._mounted = false; // should be at last.
         }
 
@@ -54300,7 +54326,7 @@
 
     function determineBrushType(brushType, panel) {
       if (brushType === 'auto') {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           assert(panel && panel.defaultBrushType, 'MUST have defaultBrushType when brushType is "atuo"');
         }
 
@@ -54624,7 +54650,7 @@
         each(areas, function (area) {
           var targetInfo = this.findTargetInfo(area, ecModel);
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             assert(!targetInfo || targetInfo === true || area.coordRange, 'coordRange must be specified when coord index specified.');
             assert(!targetInfo || targetInfo !== true || area.range, 'range must be specified in global brush.');
           }
@@ -54830,7 +54856,7 @@
     };
 
     function axisConvert(axisNameIndex, to, coordSys, rangeOrCoordRange) {
-      if ("development" !== 'production') {
+      if (window.__DEV__) {
         assert(coordSys.type === 'cartesian2d', 'lineX/lineY brush is available only in cartesian2d.');
       }
 
@@ -55691,7 +55717,7 @@
         var _this = this;
 
         if (isObject(content)) {
-          throwError("development" !== 'production' ? 'Passing DOM nodes as content is not supported in richText tooltip!' : '');
+          throwError(window.__DEV__ ? 'Passing DOM nodes as content is not supported in richText tooltip!' : '');
         }
 
         if (this.el) {
@@ -56996,7 +57022,7 @@
 
 
       MarkerModel.prototype.init = function (option, parentModel, ecModel) {
-        if ("development" !== 'production') {
+        if (window.__DEV__) {
           if (this.type === 'marker') {
             throw new Error('Marker component is abstract component. Use markLine, markPoint, markArea instead.');
           }
@@ -57678,6 +57704,22 @@
     function makeSymbolTypeKey(symbolCategory) {
       return '_' + symbolCategory + 'Type';
     }
+
+    function makeSymbolTypeValue(name, lineData, idx) {
+      var symbolType = lineData.getItemVisual(idx, name);
+
+      if (!symbolType || symbolType === 'none') {
+        return symbolType;
+      }
+
+      var symbolSize = lineData.getItemVisual(idx, name + 'Size');
+      var symbolRotate = lineData.getItemVisual(idx, name + 'Rotate');
+      var symbolOffset = lineData.getItemVisual(idx, name + 'Offset');
+      var symbolKeepAspect = lineData.getItemVisual(idx, name + 'KeepAspect');
+      var symbolSizeArr = normalizeSymbolSize(symbolSize);
+      var symbolOffsetArr = normalizeSymbolOffset(symbolOffset || 0, symbolSizeArr);
+      return symbolType + symbolSizeArr + symbolOffsetArr + (symbolRotate || '') + (symbolKeepAspect || '');
+    }
     /**
      * @inner
      */
@@ -57758,7 +57800,7 @@
           // Or symbol position and rotation update in line#beforeUpdate will be one frame slow
 
           this.add(symbol);
-          this[makeSymbolTypeKey(symbolCategory)] = lineData.getItemVisual(idx, symbolCategory);
+          this[makeSymbolTypeKey(symbolCategory)] = makeSymbolTypeValue(symbolCategory, lineData, idx);
         }, this);
 
         this._updateCommonStl(lineData, idx, seriesScope);
@@ -57775,7 +57817,7 @@
         setLinePoints(target.shape, linePoints);
         updateProps(line, target, seriesModel, idx);
         each(SYMBOL_CATEGORIES, function (symbolCategory) {
-          var symbolType = lineData.getItemVisual(idx, symbolCategory);
+          var symbolType = makeSymbolTypeValue(symbolCategory, lineData, idx);
           var key = makeSymbolTypeKey(symbolCategory); // Symbol changed
 
           if (this[key] !== symbolType) {
@@ -58284,7 +58326,7 @@
           }];
         } else {
           // Invalid data
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             logError('Invalid markLine data.');
           }
 
@@ -59476,7 +59518,7 @@
             }, this);
           }
 
-          if ("development" !== 'production') {
+          if (window.__DEV__) {
             if (!legendDrawnMap.get(name)) {
               console.warn(name + ' series not exists. Legend data should be same with series name or data name.');
             }
@@ -59568,15 +59610,17 @@
           content = formatter(name);
         }
 
-        var inactiveColor = legendItemModel.get('inactiveColor');
+        var textColor = isSelected ? textStyleModel.getTextColor() : legendItemModel.get('inactiveColor');
         itemGroup.add(new ZRText({
           style: createTextStyle(textStyleModel, {
             text: content,
             x: textX,
             y: itemHeight / 2,
-            fill: isSelected ? textStyleModel.getTextColor() : inactiveColor,
+            fill: textColor,
             align: textAlign,
             verticalAlign: 'middle'
+          }, {
+            inheritColor: textColor
           })
         })); // Add a invisible rect to increase the area of mouse hover
 
@@ -61647,7 +61691,7 @@
             // Compatitable with the old icon parsers. Which can use a path string without path://
             iconStr = 'path://' + iconStr;
 
-            if ("development" !== 'production') {
+            if (window.__DEV__) {
               deprecateLog('handleIcon now needs \'path://\' prefix when using a path string');
             }
           }

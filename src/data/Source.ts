@@ -388,7 +388,7 @@ function determineSourceDimensions(
         dimensionsDetectedCount = isArray(value0) && value0.length || 1;
     }
     else if (sourceFormat === SOURCE_FORMAT_TYPED_ARRAY) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(!!dimensionsDefine, 'dimensions must be given if data is TypedArray.');
         }
     }

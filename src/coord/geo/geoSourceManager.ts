@@ -135,7 +135,7 @@ export default {
         const resource = storage.get(mapName);
 
         if (!resource) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 console.error(
                     'Map ' + mapName + ' not exists. The GeoJSON of the map must be provided.'
                 );

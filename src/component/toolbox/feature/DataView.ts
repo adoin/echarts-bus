@@ -396,7 +396,7 @@ class DataView extends ToolboxFeature<ToolboxDataViewFeatureOption> {
         addEventListener(refreshButton, 'click', function () {
             if ((contentToOption == null && optionToContent != null)
                 || (contentToOption != null && optionToContent == null)) {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     // eslint-disable-next-line
                     warn('It seems you have just provided one of `contentToOption` and `optionToContent` functions but missed the other one. Data change is ignored.')
                 }

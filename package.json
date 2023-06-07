@@ -18,14 +18,13 @@
   "module": "index.js",
   "jsdelivr": "dist/echarts.min.js",
   "types": "index.d.ts",
-  "homepage": "https://echarts.apache.org",
   "bugs": {
-    "url": "https://github.com/apache/echarts/issues",
-    "email": "dev@echarts.apache.org"
+    "url": "https://github.com/adoin/echarts-bus/issues",
+    "email": "adoin@qq.com"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/apache/echarts.git"
+    "url": "git+https://github.com/adoin/echarts-bus.git"
   },
   "sideEffects": [
     "index.js",

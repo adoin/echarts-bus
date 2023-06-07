@@ -190,7 +190,7 @@ class BrushModel extends ComponentModel<BrushOption> {
      * If `areas` is null/undefined, range state remain.
      */
     setAreas(areas?: BrushAreaParam[]): void {
-        if (__DEV__) {
+        if (window.__DEV__) {
             zrUtil.assert(zrUtil.isArray(areas));
             zrUtil.each(areas, function (area) {
                 zrUtil.assert(area.brushType, 'Illegal areas');

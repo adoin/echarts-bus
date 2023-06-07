@@ -323,7 +323,7 @@ class SeriesData<
                 this._idDimIdx = i;
             }
 
-            if (__DEV__) {
+            if (window.__DEV__) {
                 zrUtil.assert(assignStoreDimIdx || dimensionInfo.storeDimIndex >= 0);
             }
             if (assignStoreDimIdx) {
@@ -445,7 +445,7 @@ class SeriesData<
 
     private _getStoreDimIndex(dim: DimensionLoose): DimensionIndex {
         const dimIdx = this.getDimensionIndex(dim);
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (dimIdx == null) {
                 throw new Error('Unknown dimension ' + dim);
             }
@@ -861,7 +861,7 @@ class SeriesData<
      */
     rawIndexOf(dim: SeriesDimensionName, value: OrdinalNumber): number {
         const invertedIndices = dim && this._invertedIndicesMap[dim];
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (!invertedIndices) {
                 throw new Error('Do not supported yet');
             }
@@ -1055,7 +1055,7 @@ class SeriesData<
         // ctxCompat just for compat echarts3
         const fCtx = (ctx || ctxCompat || this) as CtxOrList<Ctx>;
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             zrUtil.each(normalizeDimensions(dims), dim => {
                 const dimInfo = this.getDimensionInfo(dim);
                 if (!dimInfo.isCalculationCoord) {

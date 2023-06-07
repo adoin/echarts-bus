@@ -76,7 +76,7 @@ function flattenDataDiffItems(list: TransitionSeries[]) {
     each(list, seriesInfo => {
         const data = seriesInfo.data;
         if (data.count() > DATA_COUNT_THRESHOLD) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 warn('Universal transition is disabled on large data > 10k.');
             }
             return;
@@ -522,7 +522,7 @@ function findTransitionSeriesBatches(
             const oldData = oldDataMap.get(transitionKeyStr);
             // string transition key is the best match.
             if (oldData) {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     checkTransitionSeriesKeyDuplicated(transitionKeyStr);
                 }
                 // TODO check if data is same?
@@ -542,7 +542,7 @@ function findTransitionSeriesBatches(
             else {
                 // Transition from multiple series.
                 if (isArray(transitionKey)) {
-                    if (__DEV__) {
+                    if (window.__DEV__) {
                         checkTransitionSeriesKeyDuplicated(transitionKeyStr);
                     }
                     const oldSeries: TransitionSeries[] = [];

@@ -86,7 +86,7 @@ export function installSunburstAction(registers: EChartsExtensionInstallRegister
                 }
             }
 
-            if (__DEV__) {
+            if (window.__DEV__) {
                 deprecateReplaceLog('sunburstHighlight', 'highlight');
             }
 
@@ -102,7 +102,7 @@ export function installSunburstAction(registers: EChartsExtensionInstallRegister
         function (payload: SunburstUnhighlightPayload, ecModel: GlobalModel, api: ExtensionAPI) {
             payload = extend({}, payload);
 
-            if (__DEV__) {
+            if (window.__DEV__) {
                 deprecateReplaceLog('sunburstUnhighlight', 'downplay');
             }
 

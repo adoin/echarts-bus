@@ -85,7 +85,7 @@ function compatBarItemStyle(option: Dictionary<any>) {
             const newName = BAR_ITEM_STYLE_MAP[i][0];
             if (itemStyle[oldName] != null) {
                 itemStyle[newName] = itemStyle[oldName];
-                if (__DEV__) {
+                if (window.__DEV__) {
                     deprecateReplaceLog(oldName, newName);
                 }
             }
@@ -98,7 +98,7 @@ function compatPieLabel(option: Dictionary<any>) {
         return;
     }
     if (option.alignTo === 'edge' && option.margin != null && option.edgeDistance == null) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             deprecateReplaceLog('label.margin', 'label.edgeDistance', 'pie');
         }
         option.edgeDistance = option.margin;
@@ -111,7 +111,7 @@ function compatSunburstState(option: Dictionary<any>) {
     }
     if (option.downplay && !option.blur) {
         option.blur = option.downplay;
-        if (__DEV__) {
+        if (window.__DEV__) {
             deprecateReplaceLog('downplay', 'blur', 'sunburst');
         }
     }
@@ -124,7 +124,7 @@ function compatGraphFocus(option: Dictionary<any>) {
     if (option.focusNodeAdjacency != null) {
         option.emphasis = option.emphasis || {};
         if (option.emphasis.focus == null) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 deprecateReplaceLog('focusNodeAdjacency', 'emphasis: { focus: \'adjacency\'}', 'graph/sankey');
             }
             option.emphasis.focus = 'adjacency';
@@ -157,7 +157,7 @@ export default function globalBackwardCompat(option: ECUnitOption, isTheme?: boo
         if (seriesType === 'line') {
             if (seriesOpt.clipOverflow != null) {
                 seriesOpt.clip = seriesOpt.clipOverflow;
-                if (__DEV__) {
+                if (window.__DEV__) {
                     deprecateReplaceLog('clipOverflow', 'clip', 'line');
                 }
             }
@@ -165,7 +165,7 @@ export default function globalBackwardCompat(option: ECUnitOption, isTheme?: boo
         else if (seriesType === 'pie' || seriesType === 'gauge') {
             if (seriesOpt.clockWise != null) {
                 seriesOpt.clockwise = seriesOpt.clockWise;
-                if (__DEV__) {
+                if (window.__DEV__) {
                     deprecateReplaceLog('clockWise', 'clockwise');
                 }
             }
@@ -180,7 +180,7 @@ export default function globalBackwardCompat(option: ECUnitOption, isTheme?: boo
             if (seriesOpt.hoverOffset != null) {
                 seriesOpt.emphasis = seriesOpt.emphasis || {};
                 if (seriesOpt.emphasis.scaleSize = null) {
-                    if (__DEV__) {
+                    if (window.__DEV__) {
                         deprecateReplaceLog('hoverOffset', 'emphasis.scaleSize');
                     }
                     seriesOpt.emphasis.scaleSize = seriesOpt.hoverOffset;
@@ -212,7 +212,7 @@ export default function globalBackwardCompat(option: ECUnitOption, isTheme?: boo
                 seriesOpt.emphasis = seriesOpt.emphasis || {};
                 if (!seriesOpt.emphasis.focus) {
                     seriesOpt.emphasis.focus = highlightPolicy;
-                    if (__DEV__) {
+                    if (window.__DEV__) {
                         deprecateReplaceLog('highlightPolicy', 'emphasis.focus', 'sunburst');
                     }
                 }
@@ -228,13 +228,13 @@ export default function globalBackwardCompat(option: ECUnitOption, isTheme?: boo
         }
         else if (seriesType === 'map') {
             if (seriesOpt.mapType && !seriesOpt.map) {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     deprecateReplaceLog('mapType', 'map', 'map');
                 }
                 seriesOpt.map = seriesOpt.mapType;
             }
             if (seriesOpt.mapLocation) {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     deprecateLog('`mapLocation` is not used anymore.');
                 }
                 defaults(seriesOpt, seriesOpt.mapLocation);
@@ -244,7 +244,7 @@ export default function globalBackwardCompat(option: ECUnitOption, isTheme?: boo
         if (seriesOpt.hoverAnimation != null) {
             seriesOpt.emphasis = seriesOpt.emphasis || {};
             if (seriesOpt.emphasis && seriesOpt.emphasis.scale == null) {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     deprecateReplaceLog('hoverAnimation', 'emphasis.scale');
                 }
                 seriesOpt.emphasis.scale = seriesOpt.hoverAnimation;

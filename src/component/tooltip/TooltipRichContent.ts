@@ -83,7 +83,7 @@ class TooltipRichContent {
         arrowPosition: TooltipOption['position']
     ) {
         if (zrUtil.isObject(content)) {
-            throwError(__DEV__ ? 'Passing DOM nodes as content is not supported in richText tooltip!' : '');
+            throwError(window.__DEV__ ? 'Passing DOM nodes as content is not supported in richText tooltip!' : '');
         }
         if (this.el) {
             this._zr.remove(this.el);

@@ -158,7 +158,7 @@ class BarView extends ChartView {
                 ? this._renderLarge(seriesModel, ecModel, api)
                 : this._renderNormal(seriesModel, ecModel, api, payload);
         }
-        else if (__DEV__) {
+        else if (window.__DEV__) {
             warn('Only cartesian2d and polar supported for bar.');
         }
     }
@@ -830,7 +830,7 @@ function shouldRealtimeSort(
 ): RealtimeSortConfig {
     const realtimeSortOption = seriesModel.get('realtimeSort', true);
     const baseAxis = coordSys.getBaseAxis() as Axis2D;
-    if (__DEV__) {
+    if (window.__DEV__) {
         if (realtimeSortOption) {
             if (baseAxis.type !== 'category') {
                 warn('`realtimeSort` will not work because this bar series is not based on a category axis.');

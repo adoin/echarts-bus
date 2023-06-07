@@ -405,7 +405,7 @@ class Calendar implements CoordinateSystem, CoordinateSystemMaster {
         }
 
         if (!normalizedRange) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 zrUtil.logError('Invalid date range.');
             }
             // Not handling it.

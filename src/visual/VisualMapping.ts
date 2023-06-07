@@ -695,7 +695,7 @@ function setVisualToOption(thisOption: VisualMappingInnerOption, visualArr: Visu
     if (thisOption.type === 'color') {
         thisOption.parsedVisual = zrUtil.map(visualArr, function (item: string) {
             const color = zrColor.parse(item);
-            if (!color && __DEV__) {
+            if (!color && window.__DEV__) {
                 warn(`'${item}' is an illegal color, fallback to '#000000'`, true);
             }
             return color || [0, 0, 0, 1];

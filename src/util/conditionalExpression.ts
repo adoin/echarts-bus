@@ -180,7 +180,7 @@ class RegExpEvaluator implements FilterComparator {
             : null;
         if (condValue == null) {
             let errMsg = '';
-            if (__DEV__) {
+            if (window.__DEV__) {
                 errMsg = makePrintable('Illegal regexp', rVal, 'in');
             }
             throwError(errMsg);
@@ -310,7 +310,7 @@ function parseOption(
 
     let errMsg = '';
     if (!isObjectNotArray(exprOption)) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             errMsg = makePrintable(
                 'Illegal config. Expect a plain object but actually', exprOption
             );
@@ -338,7 +338,7 @@ function parseAndOrOption(
 ): ParsedConditionInternal {
     const subOptionArr = exprOption[op] as ConditionalExpressionOption[];
     let errMsg = '';
-    if (__DEV__) {
+    if (window.__DEV__) {
         errMsg = makePrintable(
             '"and"/"or" condition should only be `' + op + ': [...]` and must not be empty array.',
             'Illegal condition:', exprOption
@@ -364,7 +364,7 @@ function parseNotOption(
 ): ParsedConditionInternal {
     const subOption = exprOption.not as ConditionalExpressionOption;
     let errMsg = '';
-    if (__DEV__) {
+    if (window.__DEV__) {
         errMsg = makePrintable(
             '"not" condition should only be `not: {}`.',
             'Illegal condition:', exprOption
@@ -410,7 +410,7 @@ function parseRelationalOption(
             || (op === 'reg' && new RegExpEvaluator(condValueParsed));
 
         if (!evaluator) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 errMsg = makePrintable(
                     'Illegal relational operation: "' + keyRaw + '" in condition:', exprOption
                 );
@@ -422,7 +422,7 @@ function parseRelationalOption(
     }
 
     if (!subCondList.length) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             errMsg = makePrintable(
                 'Relational condition must have at least one operator.',
                 'Illegal condition:', exprOption

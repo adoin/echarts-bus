@@ -188,7 +188,7 @@ class DataStore {
         inputDimensions: DataStoreDimensionDefine[],
         dimValueGetter?: DimValueGetter
     ): void {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(
                 isFunction(provider.getItem) && isFunction(provider.count),
                 'Invalid data provider.'
@@ -212,7 +212,7 @@ class DataStore {
         this._rawExtent = [];
         const willRetrieveDataByName = shouldRetrieveDataByName(source);
         this._dimensions = map(inputDimensions, dim => {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 if (willRetrieveDataByName) {
                     assert(dim.property != null);
                 }
@@ -316,7 +316,7 @@ class DataStore {
      * Caution: Can be only called on raw data (before `this._indices` created).
      */
     appendData(data: ArrayLike<any>): number[] {
-        if (__DEV__) {
+        if (window.__DEV__) {
             assert(!this._indices, 'appendData can only be called on raw data.');
         }
 

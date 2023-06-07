@@ -107,7 +107,7 @@ export function summarizeDimensions(
 
         const coordDim = dimItem.coordDim;
         if (coordDim) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 assert(VISUAL_DIMENSIONS.get(coordDim as any) == null);
             }
 

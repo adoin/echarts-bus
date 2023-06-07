@@ -79,7 +79,7 @@ export function enableClassExtend(rootClz: ExtendableConstructor, mandatoryMetho
     rootClz.$constructor = rootClz; // FIXME: not necessary?
 
     rootClz.extend = function (proto: Dictionary<any>) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             zrUtil.each(mandatoryMethods, function (method) {
                 if (!proto[method]) {
                     console.warn(
@@ -176,7 +176,7 @@ export function enableClassCheck(target: CheckableConstructor): void {
     const classAttr = ['__\0is_clz', classBase++].join('_');
     target.prototype[classAttr] = true;
 
-    if (__DEV__) {
+    if (window.__DEV__) {
         zrUtil.assert(!target.isInstance, 'The method "is" can not be defined.');
     }
 
@@ -258,7 +258,7 @@ export function enableClassManagement(
             const componentTypeInfo = parseClassType(componentFullType);
 
             if (!componentTypeInfo.sub) {
-                if (__DEV__) {
+                if (window.__DEV__) {
                     if (storage[componentTypeInfo.main]) {
                         console.warn(componentTypeInfo.main + ' exists.');
                     }

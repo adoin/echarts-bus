@@ -171,7 +171,7 @@ function createExternalSource(internalSource: Source, externalTransform: Externa
         // For the logic simplicity in transformer, only 'culumn' is
         // supported in data transform. Otherwise, the `dimensionsDefine`
         // might be detected by 'row', which probably confuses users.
-        if (__DEV__) {
+        if (window.__DEV__) {
             errMsg = '`seriesLayoutBy` of upstream dataset can only be "column" in data transform.';
         }
         throwError(errMsg);
@@ -204,7 +204,7 @@ function createExternalSource(internalSource: Source, externalTransform: Externa
                 // new name like module `completeDimensions.ts` did, but just tell users.
                 let errMsg = '';
                 if (hasOwn(dimsByName, name)) {
-                    if (__DEV__) {
+                    if (window.__DEV__) {
                         errMsg = 'dimension name "' + name + '" duplicated.';
                     }
                     throwError(errMsg);
@@ -264,7 +264,7 @@ function getRawData(upstream: Source): Source['data'] {
 
     if (!isSupportedSourceFormat(sourceFormat)) {
         let errMsg = '';
-        if (__DEV__) {
+        if (window.__DEV__) {
             errMsg = '`getRawData` is not supported in source format ' + sourceFormat;
         }
         throwError(errMsg);
@@ -279,7 +279,7 @@ function cloneRawData(upstream: Source): Source['data'] {
 
     if (!isSupportedSourceFormat(sourceFormat)) {
         let errMsg = '';
-        if (__DEV__) {
+        if (window.__DEV__) {
             errMsg = '`cloneRawData` is not supported in source format ' + sourceFormat;
         }
         throwError(errMsg);
@@ -337,14 +337,14 @@ export function registerExternalTransform(
     let type = externalTransform.type;
     let errMsg = '';
     if (!type) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             errMsg = 'Must have a `type` when `registerTransform`.';
         }
         throwError(errMsg);
     }
     const typeParsed = type.split(':');
     if (typeParsed.length !== 2) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             errMsg = 'Name must include namespace like "ns:regression".';
         }
         throwError(errMsg);
@@ -370,7 +370,7 @@ export function applyDataTransform(
 
     let errMsg = '';
     if (!pipeLen) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             errMsg = 'If `transform` declared, it should at least contain one transform.';
         }
         throwError(errMsg);
@@ -398,13 +398,13 @@ function applySingleDataTransform(
 ): Source[] {
     let errMsg = '';
     if (!upSourceList.length) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             errMsg = 'Must have at least one upstream dataset.';
         }
         throwError(errMsg);
     }
     if (!isObject(transOption)) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             errMsg = 'transform declaration must be an object rather than ' + typeof transOption + '.';
         }
         throwError(errMsg);
@@ -414,7 +414,7 @@ function applySingleDataTransform(
     const externalTransform = externalTransformMap.get(transType);
 
     if (!externalTransform) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             errMsg = 'Can not find transform on type "' + transType + '".';
         }
         throwError(errMsg);
@@ -431,7 +431,7 @@ function applySingleDataTransform(
         })
     );
 
-    if (__DEV__) {
+    if (window.__DEV__) {
         if (transOption.print) {
             const printStrArr = map(resultList, extSource => {
                 const pipeIndexStr = pipeIndex != null ? ' === pipe index: ' + pipeIndex : '';
@@ -451,14 +451,14 @@ function applySingleDataTransform(
         let errMsg = '';
 
         if (!isObject(result)) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 errMsg = 'A transform should not return some empty results.';
             }
             throwError(errMsg);
         }
 
         if (!result.data) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 errMsg = 'Transform result data should be not be null or undefined';
             }
             throwError(errMsg);
@@ -466,7 +466,7 @@ function applySingleDataTransform(
 
         const sourceFormat = detectSourceFormat(result.data);
         if (!isSupportedSourceFormat(sourceFormat)) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 errMsg = 'Transform result data should be array rows or object rows.';
             }
             throwError(errMsg);

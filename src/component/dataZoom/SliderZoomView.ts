@@ -579,7 +579,7 @@ class SliderZoomView extends DataZoomView {
             ) {
                 // Compatitable with the old icon parsers. Which can use a path string without path://
                 iconStr = 'path://' + iconStr;
-                if (__DEV__) {
+                if (window.__DEV__) {
                     deprecateLog('handleIcon now needs \'path://\' prefix when using a path string');
                 }
             }

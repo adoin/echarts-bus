@@ -32,7 +32,7 @@ const linesLayout: StageHandler = {
     reset: function (seriesModel: LinesSeriesModel) {
         const coordSys = seriesModel.coordinateSystem;
         if (!coordSys) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 error('The lines series must have a coordinate system.');
             }
             return;

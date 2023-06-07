@@ -485,7 +485,7 @@ function setTokenTextStyle(
     let strokeColor = textStyleModel.getShallow('textBorderColor');
     let opacity = retrieve2(textStyleModel.getShallow('opacity'), globalTextStyle.opacity);
     if (fillColor === 'inherit' || fillColor === 'auto') {
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (fillColor === 'auto') {
                 deprecateReplaceLog('color: \'auto\'', 'color: \'inherit\'');
             }
@@ -498,7 +498,7 @@ function setTokenTextStyle(
         }
     }
     if (strokeColor === 'inherit' || (strokeColor === 'auto')) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (strokeColor === 'auto') {
                 deprecateReplaceLog('color: \'auto\'', 'color: \'inherit\'');
             }
@@ -589,7 +589,7 @@ function setTokenTextStyle(
         }
 
         if ((textStyle.backgroundColor === 'auto' || textStyle.backgroundColor === 'inherit') && inheritColor) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 if (textStyle.backgroundColor === 'auto') {
                     deprecateReplaceLog('backgroundColor: \'auto\'', 'backgroundColor: \'inherit\'');
                 }
@@ -597,7 +597,7 @@ function setTokenTextStyle(
             textStyle.backgroundColor = inheritColor;
         }
         if ((textStyle.borderColor === 'auto' || textStyle.borderColor === 'inherit') && inheritColor) {
-            if (__DEV__) {
+            if (window.__DEV__) {
                 if (textStyle.borderColor === 'auto') {
                     deprecateReplaceLog('borderColor: \'auto\'', 'borderColor: \'inherit\'');
                 }

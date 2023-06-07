@@ -116,7 +116,7 @@ abstract class MarkerModel<Opts extends MarkerOption = MarkerOption> extends Com
      */
     init(option: Opts, parentModel: Model, ecModel: GlobalModel) {
 
-        if (__DEV__) {
+        if (window.__DEV__) {
             if (this.type === 'marker') {
                 throw new Error('Marker component is abstract component. Use markLine, markPoint, markArea instead.');
             }

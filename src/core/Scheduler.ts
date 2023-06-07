@@ -264,7 +264,7 @@ class Scheduler {
             const record = stageTaskMap.get(handler.uid) || stageTaskMap.set(handler.uid, {});
 
             let errMsg = '';
-            if (__DEV__) {
+            if (window.__DEV__) {
                 // Currently do not need to support to sepecify them both.
                 errMsg = '"reset" and "overallReset" must not be both specified.';
             }
@@ -498,7 +498,7 @@ class Scheduler {
         // progress. Moreover, to avoid call the overall task each frame (too frequent),
         // we set the pipeline block.
         let errMsg = '';
-        if (__DEV__) {
+        if (window.__DEV__) {
             errMsg = '"createOnAllSeries" is not supported for "overallReset", '
                 + 'because it will block all streams.';
         }

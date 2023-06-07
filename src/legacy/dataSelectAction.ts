@@ -49,7 +49,7 @@ export function createLegacyDataSelectAction(seriesType: string, ecRegisterActio
         ecRegisterAction(eventsMap[0], function (payload, ecModel, api) {
             payload = extend({}, payload);
 
-            if (__DEV__) {
+            if (window.__DEV__) {
                 deprecateReplaceLog(payload.type, eventsMap[1]);
             }
 
@@ -70,7 +70,7 @@ function handleSeriesLegacySelectEvents(
 ) {
     const legacyEventName = type + eventPostfix;
     if (!ecIns.isSilent(legacyEventName)) {
-        if (__DEV__) {
+        if (window.__DEV__) {
             deprecateLog(`event ${legacyEventName} is deprecated.`);
         }
         ecModel.eachComponent({
