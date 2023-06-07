@@ -1,5 +1,5 @@
 {
-  "name": "echarts",
+  "name": "echarts-bus",
   "version": "5.4.2",
   "description": "Apache ECharts is a powerful, interactive charting and data visualization library for browser",
   "license": "Apache-2.0",

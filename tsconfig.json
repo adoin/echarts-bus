@@ -21,7 +21,9 @@
         "outDir": "lib"
     },
     "include": [
+        "src/**/*.d.ts",
         "src/**/*.ts",
+        "types/**/*.d.ts",
         "extension-src/**/*.ts",
         "test/lib/myTransform/src/**/*.ts"
     ]

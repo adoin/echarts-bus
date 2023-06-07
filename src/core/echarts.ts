@@ -341,7 +341,7 @@ class ECharts extends Eventful<ECEventDefinition> {
      * @readonly
      */
     group: string;
-
+    private _backupArguments:any[];
     private _ssr: boolean;
 
     private _zr: zrender.ZRenderType;
@@ -479,6 +479,11 @@ class ECharts extends Eventful<ECEventDefinition> {
 
         // ECharts instance can be used as value.
         setAsPrimitive(this);
+        if(window.__echarts_mitt_watcher){
+            window.__echarts_mitt_watcher.on('setTheme',(themeCode:string)=>{
+                this.setTheme(themeCode);
+            })
+        }
     }
 
     private _onframe(): void {
@@ -561,6 +566,9 @@ class ECharts extends Eventful<ECEventDefinition> {
         }
     }
 
+    getBackupArguments():any[]{
+        return this._backupArguments;
+    }
     getDom(): HTMLElement {
         return this._dom;
     }
@@ -597,6 +605,7 @@ class ECharts extends Eventful<ECEventDefinition> {
     setOption<Opt extends ECBasicOption>(option: Opt, opts?: SetOptionOpts): void;
     /* eslint-disable-next-line */
     setOption<Opt extends ECBasicOption>(option: Opt, notMerge?: boolean | SetOptionOpts, lazyUpdate?: boolean): void {
+        this._backupArguments = [option, notMerge, lazyUpdate]
         if (this[IN_MAIN_PROCESS_KEY]) {
             if (__DEV__) {
                 error('`setOption` should not be called during main process.');
@@ -676,11 +685,12 @@ class ECharts extends Eventful<ECEventDefinition> {
         }
     }
 
-    /**
-     * @deprecated
-     */
-    private setTheme(): void {
-        deprecateLog('ECharts#setTheme() is DEPRECATED in ECharts 3.0');
+    private setTheme(themeCode:string): void {
+        // todo recovery theme change
+        const args = clone(this.getBackupArguments())
+        this.clear()
+        this._theme = themeStorage[themeCode];
+        this.setOption(args[0], true, args[2])
     }
 
     // We don't want developers to use getModel directly.
@@ -2642,6 +2652,7 @@ export function init(
     theme?: string | object | null,
     opts?: EChartsInitOpts
 ): EChartsType {
+
     const isClient = !(opts && opts.ssr);
     if (isClient) {
         if (__DEV__) {
