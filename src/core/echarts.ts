@@ -481,7 +481,7 @@ class ECharts extends Eventful<ECEventDefinition> {
         setAsPrimitive(this);
         if(window.__echarts_mitt_watcher){
             window.__echarts_mitt_watcher.on('setTheme',(themeCode:string)=>{
-                this.setTheme(themeCode);
+                // this.setTheme(themeCode);
             })
         }
     }
@@ -2685,7 +2685,7 @@ export function init(
         }
     }
 
-    const chart = new ECharts(dom, theme??window.__echarts_current_theme, opts);
+    const chart = new ECharts(dom, theme, opts);
     chart.id = 'ec_' + idBase++;
     instances[chart.id] = chart;
 

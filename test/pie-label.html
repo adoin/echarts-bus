@@ -83,6 +83,10 @@ under the License.
                         type: 'pie',
                         radius: ['60%','80%'],
                         labelLine: { show: false },
+                        label: {
+                            show: true,
+                            formatter: '{b}: {c}%', //自定义显示格式(b:name, c:value, d:百分比)
+                        },
                         hoverAnimation: false,
                         data: getData()
                     }]
@@ -105,7 +109,11 @@ under the License.
                     }
                     chart.setOption({
                         series: [{
-                            data: getData()
+                            data: getData(),
+                            label: {
+                                show: true,
+                                formatter: '{b}: {c}%', //自定义显示格式(b:name, c:value, d:百分比)
+                            },
                         }]
                     });
                 }, 20);
@@ -147,7 +155,11 @@ under the License.
                             length2: 10,
                             smooth: true
                         },
-                        data: data
+                        data: data,
+                        label: {
+                            show: true,
+                            formatter: '{b}: {c}%', //自定义显示格式(b:name, c:value, d:百分比)
+                        },
                     }]
                 };
 
@@ -213,14 +225,20 @@ under the License.
                         type: 'pie',
                         center: [pos[0], '50%'],
                         minShowLabelAngle: 10,
-                        label: {show: true},
+                        label: {
+                            show: true,
+                            formatter: '{b}: {c}%', //自定义显示格式(b:name, c:value, d:百分比)
+                        },
                         radius: '30%',
                         data: makeData(1)
                     }, {
                         type: 'pie',
                         center: [pos[1], '50%'],
                         minShowLabelAngle: 2,
-                        label: {show: true},
+                        label: {
+                            show: true,
+                            formatter: '{b}: {c}%', //自定义显示格式(b:name, c:value, d:百分比)
+                        },
                         radius: '30%',
                         data: makeData(-1)
                     }]
