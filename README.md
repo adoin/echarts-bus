@@ -21,3 +21,4 @@ light和默认主题不一样，想要默认主题的可以light换成无效的�
     window.__echarts_mitt_watcher.emit('setTheme', darkMode ? 'dark' : 'none');
     window.__echarts_current_theme = darkMode ? 'dark' : 'none';
 ```
+除此之外的操作和Echarts一样，放心大胆地写你的实例，主题会全局处理。
