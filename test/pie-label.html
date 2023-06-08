@@ -85,7 +85,7 @@ under the License.
                         labelLine: { show: false },
                         label: {
                             show: true,
-                            formatter: '{b}: {c}%', //自定义显示格式(b:name, c:value, d:百分比)
+                            formatter: '{b}%: {c}', //自定义显示格式(b:name, c:value, d:百分比)
                         },
                         hoverAnimation: false,
                         data: getData()
@@ -112,7 +112,7 @@ under the License.
                             data: getData(),
                             label: {
                                 show: true,
-                                formatter: '{b}: {c}%', //自定义显示格式(b:name, c:value, d:百分比)
+                                formatter: '{b}: {c}', //自定义显示格式(b:name, c:value, d:百分比)
                             },
                         }]
                     });
@@ -149,7 +149,7 @@ under the License.
                 var option = {
                     series: [{
                         type: 'pie',
-                        radius: '50%',
+                        radius: '80%',
                         labelLine: {
                             minTurnAngle: 110,
                             length2: 10,
@@ -158,13 +158,13 @@ under the License.
                         data: data,
                         label: {
                             show: true,
-                            formatter: '{b}: {c}%', //自定义显示格式(b:name, c:value, d:百分比)
+                            formatter: '{b}: {c}', //自定义显示格式(b:name, c:value, d:百分比)
                         },
                     }]
                 };
 
                 var chart = testHelper.create(echarts, 'main1', {
-                    title: 'Too many',
+                    title:' too  many',
                     option: option
                 });
             });
