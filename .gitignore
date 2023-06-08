@@ -134,12 +134,12 @@ Desktop.ini
 #############
 
 *.py[co]
-
 # Packages
 *.egg
 *.egg-info
 # dist
 dist
+i18n
 eggs
 parts
 bin
