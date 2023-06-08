@@ -1,6 +1,9 @@
 ## 魔改的Echarts 能自动切换主题。
 
 ### 用法是 项目内安装mitt
+```npm
+npm install mitt echarts-bus
+```
 ```typescript main.ts 、main.js
 
 import mitt from 'mitt';
