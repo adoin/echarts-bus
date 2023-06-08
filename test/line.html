@@ -34,17 +34,24 @@ under the License.
             }
         </style>
 
-        <button onclick="window.__echarts_mitt_watcher.emit('setTheme', 'dark');">switchTheme</button>
+        <button onclick="setDarkTheme()">dark</button>
+        <button onclick="setLightTheme()">light</button>
         <div id="info"></div>
         (1) tick 14 and 20 should be red (has textStyle) <br>
         (2) Check all symbol show if possible<br>
         (3) Toggle the legend line4, the image symbol, emphasis style and normal style are normal
         <div id="main"></div>
         <script>
-
+                var chart;
+                const setDarkTheme = ()=>{
+                    chart.setTheme('dark');
+                }
+                const setLightTheme = ()=>{
+                    chart.setTheme('light');
+                }
             require(['echarts'], function (echarts) {
 
-                var chart = echarts.init(document.getElementById('main'));
+                chart = echarts.init(document.getElementById('main'),'dark');
 
                 var xAxisData = [];
                 var data1 = [];
