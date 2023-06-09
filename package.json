@@ -1,6 +1,6 @@
 {
     "name": "echarts-bus",
-    "version": "5.4.4",
+    "version": "5.4.5-beta.1",
     "description": "魔改的Echarts，具有同时切换主题的功能",
     "license": "Apache-2.0",
     "keywords": [
