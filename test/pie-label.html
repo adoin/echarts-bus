@@ -105,7 +105,11 @@ under the License.
                     }
                     chart.setOption({
                         series: [{
-                            data: getData()
+                            data: getData(),
+                            label:{
+                                show:true,
+                                formatter: '{b} {c}'
+                            }
                         }]
                     });
                 }, 20);
