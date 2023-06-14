@@ -67,24 +67,24 @@ class SankeyPath extends graphic.Path<SankeyPathProps> {
         const extent = shape.extent;
         ctx.moveTo(shape.x1, shape.y1);
         ctx.bezierCurveTo(
-          shape.cpx1, shape.cpy1,
-          shape.cpx2, shape.cpy2,
-          shape.x2, shape.y2
+            shape.cpx1, shape.cpy1,
+            shape.cpx2, shape.cpy2,
+            shape.x2, shape.y2
         );
         if (shape.orient === 'vertical') {
             ctx.lineTo(shape.x2 + extent, shape.y2);
             ctx.bezierCurveTo(
-              shape.cpx2 + extent, shape.cpy2,
-              shape.cpx1 + extent, shape.cpy1,
-              shape.x1 + extent, shape.y1
+                shape.cpx2 + extent, shape.cpy2,
+                shape.cpx1 + extent, shape.cpy1,
+                shape.x1 + extent, shape.y1
             );
         }
         else {
             ctx.lineTo(shape.x2, shape.y2 + extent);
             ctx.bezierCurveTo(
-              shape.cpx2, shape.cpy2 + extent,
-              shape.cpx1, shape.cpy1 + extent,
-              shape.x1, shape.y1 + extent
+                shape.cpx2, shape.cpy2 + extent,
+                shape.cpx1, shape.cpy1 + extent,
+                shape.x1, shape.y1 + extent
             );
         }
         ctx.closePath();
@@ -209,13 +209,13 @@ class SankeyView extends ChartView {
                     const targetColor = edge.node2.getVisual('color');
                     if (isString(sourceColor) && isString(targetColor)) {
                         curve.style.fill = new graphic.LinearGradient(
-                          0, 0, +(orient === 'horizontal'), +(orient === 'vertical'), [{
-                              color: sourceColor,
-                              offset: 0
-                          }, {
-                              color: targetColor,
-                              offset: 1
-                          }]
+                            0, 0, +(orient === 'horizontal'), +(orient === 'vertical'), [{
+                                color: sourceColor,
+                                offset: 0
+                            }, {
+                                color: targetColor,
+                                offset: 1
+                            }]
                         );
                     }
             }
@@ -224,27 +224,27 @@ class SankeyView extends ChartView {
             const edgeLabelStateModels = getLabelStatesModels(edgeModel, 'edgeLabel');
 
             setLabelStyle(
-              curve, edgeLabelStateModels,
-              {
-                  labelFetcher: {
-                      getFormattedLabel(dataIndex, stateName, dataType, labelDimIndex, formatter, extendParams) {
-                          return seriesModel.getFormattedLabel(
-                            dataIndex, stateName, 'edge',
-                            labelDimIndex,
-                            // ensure edgeLabel formatter is provided
-                            // to prevent the inheritance from `label.formatter` of the series
-                            retrieve3(
-                              formatter,
-                              edgeLabelStateModels.normal && edgeLabelStateModels.normal.get('formatter'),
-                              defaultEdgeLabelText
-                            ),
-                            extendParams
-                          );
-                      }
-                  },
-                  labelDataIndex: edge.dataIndex,
-                  defaultText: defaultEdgeLabelText
-              }
+                curve, edgeLabelStateModels,
+                {
+                    labelFetcher: {
+                        getFormattedLabel(dataIndex, stateName, dataType, labelDimIndex, formatter, extendParams) {
+                            return seriesModel.getFormattedLabel(
+                                dataIndex, stateName, 'edge',
+                                labelDimIndex,
+                                // ensure edgeLabel formatter is provided
+                                // to prevent the inheritance from `label.formatter` of the series
+                                retrieve3(
+                                    formatter,
+                                    edgeLabelStateModels.normal && edgeLabelStateModels.normal.get('formatter'),
+                                    defaultEdgeLabelText
+                                ),
+                                extendParams
+                            );
+                        }
+                    },
+                    labelDataIndex: edge.dataIndex,
+                    defaultText: defaultEdgeLabelText
+                }
             );
             curve.setTextConfig({ position: 'inside' });
 
@@ -258,12 +258,12 @@ class SankeyView extends ChartView {
 
             const focus = emphasisModel.get('focus');
             toggleHoverEmphasis(
-              curve,
-              focus === 'adjacency' ? edge.getAdjacentDataIndices()
+                curve,
+                focus === 'adjacency' ? edge.getAdjacentDataIndices()
                 : focus === 'trajectory' ? edge.getTrajectoryDataIndices()
-                  : focus,
-              emphasisModel.get('blurScope'),
-              emphasisModel.get('disabled')
+                : focus,
+                emphasisModel.get('blurScope'),
+                emphasisModel.get('disabled')
             );
         });
 
@@ -287,16 +287,16 @@ class SankeyView extends ChartView {
             });
 
             setLabelStyle(
-              rect, getLabelStatesModels(itemModel),
-              {
-                  labelFetcher: {
-                      getFormattedLabel(dataIndex, stateName) {
-                          return seriesModel.getFormattedLabel(dataIndex, stateName, 'node');
-                      }
-                  },
-                  labelDataIndex: node.dataIndex,
-                  defaultText: node.id
-              }
+                rect, getLabelStatesModels(itemModel),
+                {
+                    labelFetcher: {
+                        getFormattedLabel(dataIndex, stateName) {
+                            return seriesModel.getFormattedLabel(dataIndex, stateName, 'node');
+                        }
+                    },
+                    labelDataIndex: node.dataIndex,
+                    defaultText: node.id
+                }
             );
 
             (rect as ECElement).disableLabelAnimation = true;
@@ -314,14 +314,14 @@ class SankeyView extends ChartView {
 
             const focus = emphasisModel.get('focus');
             toggleHoverEmphasis(
-              rect,
-              focus === 'adjacency'
-                ? node.getAdjacentDataIndices()
-                : focus === 'trajectory'
-                  ? node.getTrajectoryDataIndices()
-                  : focus,
-              emphasisModel.get('blurScope'),
-              emphasisModel.get('disabled')
+                rect,
+                focus === 'adjacency'
+                    ? node.getAdjacentDataIndices()
+                    : focus === 'trajectory'
+                    ? node.getTrajectoryDataIndices()
+                    : focus,
+                emphasisModel.get('blurScope'),
+                emphasisModel.get('disabled')
             );
         });
 

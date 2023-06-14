@@ -143,9 +143,9 @@ function getLabelText<TLabelDataIndex>(
             null,
             labelDimIndex,
             normalModel && normalModel.get('formatter'),
-          interpolatedValue != null ? {
-              interpolatedValue
-          } : null
+            interpolatedValue != null ? {
+                interpolatedValue
+            } : null
         );
     }
     if (baseText == null) {
