@@ -63,6 +63,7 @@ export interface ToolboxFeatureModel<Opts extends ToolboxFeatureOption = Toolbox
     setIconStatus(iconName: string, status: DisplayState): void
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface ToolboxFeature<Opts extends ToolboxFeatureOption = ToolboxFeatureOption> {
     getIcons?(): Dictionary<string>
 

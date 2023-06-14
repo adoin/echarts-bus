@@ -29,6 +29,9 @@
 # Note that it should be "workingDirectories" rather than "WorkingDirectories".
 
 root: true
+globals:
+    document: true
+    window: true
 rules:
     # Check the rules in: node_modules/@typescript-eslint/eslint-plugin/README.md
     no-console:

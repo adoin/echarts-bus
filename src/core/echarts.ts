@@ -479,10 +479,10 @@ class ECharts extends Eventful<ECEventDefinition> {
 
         // ECharts instance can be used as value.
         setAsPrimitive(this);
-        if(window.__echarts_mitt_watcher){
-            window.__echarts_mitt_watcher.on('setTheme',(themeCode:string)=>{
+        if (window.__echarts_mitt_watcher) {
+            window.__echarts_mitt_watcher.on('setTheme', (themeCode:string) => {
                 this.setTheme(themeCode);
-            })
+            });
         }
     }
 
@@ -566,7 +566,7 @@ class ECharts extends Eventful<ECEventDefinition> {
         }
     }
 
-    getBackupArguments():any[]{
+    getBackupArguments():any[] {
         return this._backupArguments;
     }
     getDom(): HTMLElement {
@@ -605,7 +605,7 @@ class ECharts extends Eventful<ECEventDefinition> {
     setOption<Opt extends ECBasicOption>(option: Opt, opts?: SetOptionOpts): void;
     /* eslint-disable-next-line */
     setOption<Opt extends ECBasicOption>(option: Opt, notMerge?: boolean | SetOptionOpts, lazyUpdate?: boolean): void {
-        this._backupArguments = [option, notMerge, lazyUpdate]
+        this._backupArguments = [option, notMerge, lazyUpdate];
         if (this[IN_MAIN_PROCESS_KEY]) {
             if (__DEV__) {
                 error('`setOption` should not be called during main process.');
@@ -686,11 +686,10 @@ class ECharts extends Eventful<ECEventDefinition> {
     }
 
     private setTheme(themeCode:string): void {
-        // todo recovery theme change
-        const args = clone(this.getBackupArguments())
-        this.clear()
+        const args = clone(this.getBackupArguments());
+        this.clear();
         this._theme = themeStorage[themeCode];
-        this.setOption(args[0], true, args[2])
+        this.setOption(args[0], true, args[2]);
     }
 
     // We don't want developers to use getModel directly.
@@ -2685,7 +2684,7 @@ export function init(
         }
     }
 
-    const chart = new ECharts(dom, theme??window.__echarts_current_theme, opts);
+    const chart = new ECharts(dom, theme ?? window.__echarts_current_theme, opts);
     chart.id = 'ec_' + idBase++;
     instances[chart.id] = chart;
 
