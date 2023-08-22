@@ -69,7 +69,7 @@
   "dependencies": {
     "mitt": "^3.0.0",
     "tslib": "2.3.0",
-    "zrender": "5.4.3"
+    "zrender": "5.4.4"
   },
   "devDependencies": {
     "@babel/code-frame": "7.10.4",
