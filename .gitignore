@@ -139,7 +139,7 @@ Desktop.ini
 *.egg-info
 # dist
 dist
-i18n
+# i18n
 eggs
 parts
 bin
