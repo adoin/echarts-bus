@@ -34,7 +34,7 @@ parserOptions:
     sourceType: module
     ecmaFeatures:
         modules: true
-    project: "test/ut/tsconfig.json"
+    project: "../ut/tsconfig.json"
 plugins: ["@typescript-eslint"]
 env:
     browser: true
