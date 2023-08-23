@@ -17,7 +17,6 @@ local.properties
 .class
 .settings/
 .loadpath
-dist
 # External tool builders
 .externalToolBuilders/
 
@@ -138,7 +137,7 @@ Desktop.ini
 *.egg
 *.egg-info
 # dist
-dist
+/dist
 /i18n
 eggs
 parts
@@ -189,7 +188,6 @@ todo
 /echarts.common.js
 /echarts.blank.js
 /lib
-/types
 /index.js
 /index.simple.js
 /index.common.js
