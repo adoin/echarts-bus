@@ -9,7 +9,7 @@ import Model from '../../model/Model.js';
 declare class TimelineAxis extends Axis {
     type: 'category' | 'time' | 'value';
     // @ts-ignore
-  model: TimelineModel;
+    model: TimelineModel;
     constructor(dim: string, scale: Scale, coordExtent: [number, number], axisType: 'category' | 'time' | 'value');
     /**
      * @override
