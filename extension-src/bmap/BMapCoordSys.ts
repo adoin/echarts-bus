@@ -24,7 +24,7 @@ import {
     util as zrUtil,
     graphic,
     matrix
-} from 'echarts';
+} from 'echarts-bus';
 
 function BMapCoordSys(bmap, api) {
     this._bmap = bmap;

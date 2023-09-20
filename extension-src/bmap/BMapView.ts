@@ -18,7 +18,7 @@
 */
 
 // @ts-nocheck
-import * as echarts from 'echarts';
+import * as echarts from 'echarts-bus';
 
 function isEmptyObject(obj) {
     for (const key in obj) {

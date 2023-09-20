@@ -22,7 +22,7 @@
  * BMap component extension
  */
 
-import * as echarts from 'echarts';
+import * as echarts from 'echarts-bus';
 import BMapCoordSys from './BMapCoordSys';
 
 import './BMapModel';

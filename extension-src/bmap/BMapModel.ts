@@ -18,7 +18,7 @@
 */
 
 // @ts-nocheck
-import * as echarts from 'echarts';
+import * as echarts from 'echarts-bus';
 
 function v2Equal(a, b) {
     return a && b && a[0] === b[0] && a[1] === b[1];

@@ -18,7 +18,7 @@
 */
 
 // @ts-nocheck
-import * as echarts from 'echarts';
+import * as echarts from 'echarts-bus';
 import * as gexf from './gexf';
 import prepareBoxplotData from './prepareBoxplotData';
 // import { boxplotTransform } from './boxplotTransform';
